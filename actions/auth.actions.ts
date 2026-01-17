@@ -2,7 +2,7 @@
 
 import { executeAction } from "@/lib/executeAction";
 import prisma from "@/lib/prisma";
-import { userSchema } from "@/lib/schema";
+import { RegisterUserWithConfirmSchema, userSchema } from "@/lib/schema";
 import { signIn, signOut } from "@/lib/auth";
 
 export const google_signin = async () => {
@@ -23,13 +23,13 @@ export const logOutAction = async () => {
   });
 };
 
-export const signUpAction = async (formData: FormData) => {
+export const signUpAction = async (formData: RegisterUserWithConfirmSchema) => {
   const res = await executeAction({
     actionFn: async () => {
-      const firstName = formData.get("firstName");
-      const lastName = formData.get("lastName");
-      const email = formData.get("email");
-      const password = formData.get("password");
+      const firstName = formData.firstName;
+      const lastName = formData.lastName;
+      const email = formData.email;
+      const password = formData.password;
 
       const validatedData = userSchema.parse({
         firstName,
