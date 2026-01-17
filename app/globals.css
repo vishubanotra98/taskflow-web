@@ -145,7 +145,8 @@ body {
 
 @layer utilities {
   .auth-bg {
-    background-image: linear-gradient(
+    background-image:
+      linear-gradient(
         to right,
         rgba(11, 15, 20, 0.95) 0%,
         rgba(11, 15, 20, 0.8) 50%,
@@ -196,6 +197,15 @@ body {
   .primary-input:focus {
     border-color: var(--color-primary-500);
     box-shadow: 0 0 0 1px var(--color-primary-500);
+  }
+
+  .primary-input.error {
+    border-color: var(--destructive);
+  }
+
+  .primary-input.error:focus {
+    border-color: var(--color-destructive);
+    box-shadow: 0 0 0 1px var(--color-destructive);
   }
 
   .button-primary {

@@ -1,21 +1,43 @@
 import { z } from "zod";
 
-export const signupSchema = z.object({
+const hasLowercase = /[a-z]/;
+const hasUppercase = /[A-Z]/;
+const hasNumber = /\d/;
+const hasSpecialChar = /[^A-Za-z0-9]/;
+const hasNoSpaces = /^\S*$/;
+
+export const userSchema = z.object({
   firstName: z
     .string()
     .trim()
-    .min(3)
+    .min(3, "First name should have atleast 3 characters.")
     .max(50, "First name should have atleast 3 characters."),
   lastName: z
     .string()
     .trim()
-    .min(3)
-    .max(50, "Last name must not exceed 50 characters."),
+    .min(3, "Last name should have atleast 3 characters.")
+    .max(50, "Last name should have atleast 3 characters."),
+
+  email: z.string().email("E-mail must be a valid mail."),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(hasLowercase, "Must contain at least one lowercase letter")
+    .regex(hasUppercase, "Must contain at least one uppercase letter")
+    .regex(hasNumber, "Must contain at least one number")
+    .regex(hasSpecialChar, "Must contain at least one special character")
+    .regex(hasNoSpaces, "Password cannot contain spaces"),
 });
 
-export const userSchema = z.object({
-  firstName: z.string().min(5).max(30).optional(),
-  lastName: z.string().min(5).max(30).optional(),
-  email: z.string().email(),
-  password: z.string().min(5).max(25),
-});
+export const registerUserWithConfirmSchema = userSchema
+  .extend({
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords donot match",
+    path: ["confirmPassword"],
+  });
+
+export type RegisterUserWithConfirmSchema = z.infer<
+  typeof registerUserWithConfirmSchema
+>;
