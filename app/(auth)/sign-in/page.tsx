@@ -1,12 +1,11 @@
-import { credentials_signIn, google_signin } from "@/actions/auth.actions";
-import { Input } from "@/components/ui/input";
+import { SignInForm } from "@/components/Forms/AuthForm/SignInForm";
 import { auth } from "@/lib/auth";
-import Image from "next/image";
 import { redirect } from "next/navigation";
+import GoogleAuthButton from "@/components/ui/GoogleAuthButton";
+import Link from "next/link";
 
 export default async function Signin() {
   const session = await auth();
-  console.log("session:", session);
   if (session) {
     redirect("/");
   }
@@ -21,25 +20,7 @@ export default async function Signin() {
         </p>
       </div>
 
-      <form action={credentials_signIn} className="flex flex-col gap-3">
-        <Input
-          name="email"
-          type="email"
-          placeholder="Email address"
-          className="primary-input"
-        />
-
-        <Input
-          name="password"
-          type="password"
-          placeholder="Password"
-          className="primary-input"
-        />
-
-        <button type="submit" className="button-primary">
-          Sign in
-        </button>
-      </form>
+      <SignInForm />
 
       <div className="relative flex items-center">
         <div className="grow border-t border-[#1F2937]" />
@@ -47,17 +28,15 @@ export default async function Signin() {
         <div className="grow border-t border-[#1F2937]" />
       </div>
 
-      <form action={google_signin}>
-        <button type="submit" className="google-auth-btn cursor-pointer">
-          <Image
-            src="/assets/Google_Logo.png"
-            alt="Google"
-            width={16}
-            height={16}
-          />
-          Continue with Google
-        </button>
-      </form>
+      <div>
+        <GoogleAuthButton />
+        <div className=" mt-4 flex justify-center items-center gap-2">
+          <p className="text-sm text-[#9CA3AF]">Don't have an account ?</p>
+          <Link className="text-sm text-zinc-300 underline" href={"/sign-up"}>
+            Sign Up
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
