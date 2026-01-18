@@ -26,9 +26,16 @@ const executeAction = async <T>({
       success: true,
       message: successMessage,
     };
-  } catch (e) {
+  } catch (e: any) {
     if (isRedirectError(e)) {
       throw e;
+    }
+
+    if (e.type === "AuthError") {
+      return {
+        success: false,
+        message: e.message,
+      };
     }
 
     if (e instanceof ZodError) {

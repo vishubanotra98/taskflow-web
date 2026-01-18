@@ -1,11 +1,19 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthError } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./prisma";
-import { userSchema } from "./schema";
+import { signInSchema, userSchema } from "./schema";
 import { v4 as uuid } from "uuid";
 import { encode } from "next-auth/jwt";
+import bcrypt from "bcrypt";
+
+class CustomError extends AuthError {
+  constructor(message: string) {
+    super();
+    this.message = message;
+  }
+}
 
 const adapter = PrismaAdapter(prisma);
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -14,26 +22,40 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Google,
     Credentials({
       credentials: {
-        firstName: {},
-        lastName: {},
         email: {},
         password: {},
       },
       authorize: async (credentials) => {
-        const email = userSchema.parse(credentials).email;
-        const password = userSchema.parse(credentials).password;
+        try {
+          const { email, password } = signInSchema.parse(credentials);
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email,
+          const user = await prisma.user.findUnique({
+            where: {
+              email,
+            },
+          });
+
+          if (!user) {
+            throw new CustomError("Invalid email or password.");
+          }
+
+          if (!user.password) {
+            throw new CustomError("Invalid email or password.");
+          }
+
+          const isPasswordValid = await bcrypt.compare(
             password,
-          },
-        });
+            user?.password,
+          );
 
-        if (!user) {
-          throw new Error("Invalid Credentials");
-        } else {
+          if (!isPasswordValid) {
+            throw new CustomError("Invalid email or password.");
+          }
+
           return user;
+        } catch (error) {
+          console.error("Login error:", error);
+          throw new CustomError("Invalid email or password.");
         }
       },
     }),
@@ -61,7 +83,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           sessionToken: sessionToken,
           userId: params.token.sub,
           expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          // 30 days
         });
 
         if (!createdSession) {

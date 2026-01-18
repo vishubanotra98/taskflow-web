@@ -2,17 +2,23 @@
 
 import { executeAction } from "@/lib/executeAction";
 import prisma from "@/lib/prisma";
-import { RegisterUserWithConfirmSchema, userSchema } from "@/lib/schema";
+import {
+  RegisterUserWithConfirmSchema,
+  SignInSchema,
+  userSchema,
+} from "@/lib/schema";
 import { signIn, signOut } from "@/lib/auth";
+import bcrypt from "bcrypt";
 
 export const google_signin = async () => {
   await signIn("google");
 };
 
-export const credentials_signIn = async (formData: FormData) => {
+export const credentials_signIn = async (data: SignInSchema) => {
   const res = await executeAction({
-    actionFn: async () => await signIn("credentials", formData),
+    actionFn: async () => await signIn("credentials", data),
   });
+  return res;
 };
 
 export const logOutAction = async () => {
@@ -21,6 +27,7 @@ export const logOutAction = async () => {
       await signOut();
     },
   });
+  return res;
 };
 
 export const signUpAction = async (formData: RegisterUserWithConfirmSchema) => {
@@ -38,6 +45,12 @@ export const signUpAction = async (formData: RegisterUserWithConfirmSchema) => {
         password,
       });
 
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(
+        validatedData.password,
+        saltRounds,
+      );
+
       const isUser = await prisma.user.findFirst({
         where: {
           email: validatedData?.email,
@@ -53,7 +66,7 @@ export const signUpAction = async (formData: RegisterUserWithConfirmSchema) => {
           firstName: validatedData.firstName,
           lastName: validatedData.lastName,
           email: validatedData.email,
-          password: validatedData.password,
+          password: hashedPassword,
         },
       });
     },

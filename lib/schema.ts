@@ -29,6 +29,11 @@ export const userSchema = z.object({
     .regex(hasNoSpaces, "Password cannot contain spaces"),
 });
 
+export const signInSchema = z.object({
+  email: z.string().email("E-mail must be a valid mail."),
+  password: z.string(),
+});
+
 export const registerUserWithConfirmSchema = userSchema
   .extend({
     confirmPassword: z.string(),
@@ -41,3 +46,4 @@ export const registerUserWithConfirmSchema = userSchema
 export type RegisterUserWithConfirmSchema = z.infer<
   typeof registerUserWithConfirmSchema
 >;
+export type SignInSchema = z.infer<typeof signInSchema>;
