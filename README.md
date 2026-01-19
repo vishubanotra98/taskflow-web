@@ -48,11 +48,10 @@ TaskFlow is a collaborative task management platform designed for high performin
 <img width="1927" height="924" alt="Screenshot from 2026-01-11 00-23-50" src="https://github.com/user-attachments/assets/e17b98e8-98a4-4de5-8669-33341541494e" />
 
 **Sign In**
-![Sign In Page](./public/screenshots/signin.png)
+![Sign In Page]
+<img width="1920" height="920" alt="Screenshot from 2026-01-19 14-49-21" src="https://github.com/user-attachments/assets/524e7c83-c486-45fd-843c-642611aea022" />
 
 **Form Validation**
-![Form Validation](./public/screenshots/validation.png)
+![Form Validation]
+<img width="1919" height="926" alt="Screenshot from 2026-01-18 01-14-14" src="https://github.com/user-attachments/assets/02c7d47c-eea8-43e7-9518-72de80f84a65" />
 
-
-### Database Schema
-```prisma
