@@ -45,7 +45,7 @@ TaskFlow is a collaborative task management platform designed for high performin
 
 **Sign Up**
 ![Sign Up Page]
-<img width="1927" height="924" alt="Screenshot from 2026-01-11 00-23-50" src="https://github.com/user-attachments/assets/e17b98e8-98a4-4de5-8669-33341541494e" />
+<img width="1920" height="920" alt="Screenshot from 2026-01-19 14-56-21" src="https://github.com/user-attachments/assets/73a4f2ab-8c68-4325-9d99-dfb755b567d4" />
 
 **Sign In**
 ![Sign In Page]
@@ -53,5 +53,6 @@ TaskFlow is a collaborative task management platform designed for high performin
 
 **Form Validation**
 ![Form Validation]
-<img width="1919" height="926" alt="Screenshot from 2026-01-18 01-14-14" src="https://github.com/user-attachments/assets/02c7d47c-eea8-43e7-9518-72de80f84a65" />
+<img width="1920" height="920" alt="Screenshot from 2026-01-19 14-55-22" src="https://github.com/user-attachments/assets/55a22689-9a28-4b5f-80ca-381f46c10622" />
+
 
