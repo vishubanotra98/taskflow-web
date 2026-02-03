@@ -1,8 +1,8 @@
 "use client";
 
 import { credentials_signIn } from "@/actions/auth.actions";
-import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
+import { Input } from "@/components/ui/Input/input";
+import { Spinner } from "@/components/ui/Spinner/spinner";
 import { SignInSchema, signInSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
