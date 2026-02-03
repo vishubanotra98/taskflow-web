@@ -22,12 +22,11 @@ export const credentials_signIn = async (data: SignInSchema) => {
 };
 
 export const logOutAction = async () => {
-  const res = await executeAction({
+  await executeAction({
     actionFn: async () => {
       await signOut();
     },
   });
-  return res;
 };
 
 export const signUpAction = async (formData: RegisterUserWithConfirmSchema) => {

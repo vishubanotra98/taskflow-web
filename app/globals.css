@@ -66,7 +66,7 @@ body {
   --accent: oklch(0.97 0.001 106.424);
   --accent-foreground: oklch(0.216 0.006 56.043);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.923 0.003 48.717);
+  --border: #1f2937;
   --input: oklch(0.923 0.003 48.717);
   --ring: oklch(0.709 0.01 56.259);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -74,14 +74,15 @@ body {
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0.001 106.423);
-  --sidebar-foreground: oklch(0.147 0.004 49.25);
-  --sidebar-primary: oklch(0.216 0.006 56.043);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.97 0.001 106.424);
-  --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
-  --sidebar-border: oklch(0.923 0.003 48.717);
-  --sidebar-ring: oklch(0.709 0.01 56.259);
+  --sidebar: #0b1220;
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
 
   /* App Colors */
   --color-primary-500: #6366f1; /* indigo-500 */
@@ -89,6 +90,7 @@ body {
 
   /* ===== Backgrounds ===== */
   --color-bg-primary: #0b1220;
+  --color-bg-primary-2: #111827;
   --color-bg-hover: #111827;
 
   /* ===== Borders ===== */
@@ -124,14 +126,15 @@ body {
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.216 0.006 56.043);
-  --sidebar-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.268 0.007 34.298);
-  --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.553 0.013 58.071);
+  --sidebar: hsl(240 5.9% 10%);
+  --sidebar-background: 240 5.9% 10%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 0 0% 98%;
+  --sidebar-primary-foreground: 240 5.9% 10%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
 }
 
 @layer base {
@@ -225,5 +228,87 @@ body {
 
   .button-primary:disabled {
     background-color: var(--color-primary-600);
+  }
+
+  .bg-primary {
+    background-color: var(--color-bg-primary);
+  }
+
+  .bg-primary-2 {
+    background-color: var(--color-bg-primary-2);
+  }
+
+  .primary-hover {
+    background-color: #111827;
+  }
+
+  .sidebar-list {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  .sidebar-list:hover {
+    background-color: rgb(27, 37, 59);
+    border-radius: 8px;
+  }
+
+  .text-14-400-primary {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-text-primary);
+  }
+
+  .text-14-500-primary {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .text-18-500-primary {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--color-text-primary);
+  }
+
+  .icon-container {
+    margin-left: auto;
+    cursor: pointer;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icon-container:hover {
+    background-color: rgb(27, 37, 59);
+    border-radius: 6px;
+  }
+
+  .sidebar-transition {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .sidebar-item {
+    transition:
+      background-color 0.15s ease-in-out,
+      transform 0.1s ease;
+  }
+
+  .sidebar-item:hover {
+    background-color: #1f2937;
+    transform: translateX(2px);
+  }
+
+  .sidebar-item:active {
+    transform: translateX(0px);
+  }
+
+  .chevron-rotate {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .chevron-rotate.open {
+    transform: rotate(180deg);
   }
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import { Input } from "../../ui/input";
+import { Input } from "../../ui/Input/input";
 import { signUpAction } from "@/actions/auth.actions";
 import { useState } from "react";
-import { Spinner } from "../../ui/spinner";
+import { Spinner } from "../../ui/Spinner/spinner";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";

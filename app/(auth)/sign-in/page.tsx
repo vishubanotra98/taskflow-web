@@ -1,7 +1,7 @@
 import { SignInForm } from "@/components/Forms/AuthForm/SignInForm";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import GoogleAuthButton from "@/components/ui/GoogleAuthButton";
+import GoogleAuthButton from "@/components/ui/Button/GoogleAuthButton";
 import Link from "next/link";
 
 export default async function Signin() {
