@@ -300,6 +300,11 @@ body {
     transform: translateX(2px);
   }
 
+  .sidebar-item-active {
+    background-color: #1f2937;
+    color: var(--color-text-inverse);
+  }
+
   .sidebar-item:active {
     transform: translateX(0px);
   }

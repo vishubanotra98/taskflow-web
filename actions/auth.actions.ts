@@ -15,10 +15,9 @@ export const google_signin = async () => {
 };
 
 export const credentials_signIn = async (data: SignInSchema) => {
-  const res = await executeAction({
+  return executeAction({
     actionFn: async () => await signIn("credentials", data),
   });
-  return res;
 };
 
 export const logOutAction = async () => {
@@ -30,7 +29,7 @@ export const logOutAction = async () => {
 };
 
 export const signUpAction = async (formData: RegisterUserWithConfirmSchema) => {
-  const res = await executeAction({
+  return executeAction({
     actionFn: async () => {
       const firstName = formData.firstName;
       const lastName = formData.lastName;
@@ -70,6 +69,4 @@ export const signUpAction = async (formData: RegisterUserWithConfirmSchema) => {
       });
     },
   });
-
-  return res;
 };
