@@ -6,25 +6,23 @@ type Options<T> = {
   successMessage?: string;
 };
 
+type ActionResult<T> =
+  | { success: true; message: string; data: T }
+  | { success: false; message: string; data?: never };
+
 const executeAction = async <T>({
   actionFn,
   successMessage = "The Action was successful",
-}: Options<T>): Promise<{ success: boolean; message: string }> => {
+}: Options<T>): Promise<ActionResult<T>> => {
   try {
     const res = await actionFn();
 
-    if (
-      res &&
-      typeof res === "object" &&
-      "success" in res &&
-      "message" in res
-    ) {
-      return res as { success: boolean; message: string };
-    }
+    const data = await actionFn();
 
     return {
       success: true,
       message: successMessage,
+      data,
     };
   } catch (e: any) {
     if (isRedirectError(e)) {

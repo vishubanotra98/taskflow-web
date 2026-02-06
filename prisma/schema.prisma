@@ -44,16 +44,22 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  firstName     String?   @map("first_name")
-  lastName      String?   @map("last_name")
-  email         String?   @unique
-  password      String?
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id                    String             @id @default(cuid())
+  name                  String?
+  firstName             String?            @map("first_name")
+  lastName              String?            @map("last_name")
+  email                 String?            @unique
+  password              String?
+  emailVerified         DateTime?          @map("email_verified")
+  image                 String?
+  accounts              Account[]
+  sessions              Session[]
+  workspaces            WorkspaceMembers[]
+  teams                 TeamMembers[]
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  assignedIssues        Issue[]            @relation("Assignee")
+  lastActiveWorkspaceId String?
 
   @@map("users")
 }
@@ -65,4 +71,93 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verification_tokens")
+}
+
+model Workspace {
+  id        String             @id @default(cuid())
+  name      String
+  members   WorkspaceMembers[]
+  teams     Team[]
+  statuses  Status[]
+  createdAt DateTime           @default(now())
+}
+
+model WorkspaceMembers {
+  id          String    @id @default(cuid())
+  role        Role      @default(MEMBER)
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId String
+
+  @@unique([userId, workspaceId])
+}
+
+model Team {
+  id          String        @id @default(cuid())
+  name        String
+  workspace   Workspace     @relation(fields: [workspaceId], references: [id])
+  workspaceId String
+  members     TeamMembers[]
+  projects    Project[]
+
+  createdAt DateTime @default(now())
+}
+
+model TeamMembers {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  team   Team   @relation(fields: [teamId], references: [id])
+  teamId String
+
+  @@unique([userId, teamId])
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  name      String
+  team      Team     @relation(fields: [teamId], references: [id])
+  teamId    String
+  issues    Issue[]
+  createdAt DateTime @default(now())
+}
+
+model Issue {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  priority    Priority @default(LOW)
+  status      Status   @relation(fields: [statusId], references: [id])
+  statusId    String
+  assignee    User     @relation(name: "Assignee", fields: [assigneeId], references: [id])
+  assigneeId  String
+  project     Project  @relation(fields: [projectId], references: [id])
+  projectId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Status {
+  id        String  @id @default(cuid())
+  name      String
+  color     String
+  order     Int     @default(0)
+  isDefault Boolean @default(false)
+  issues    Issue[]
+
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+  workspaceId String?
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
 }

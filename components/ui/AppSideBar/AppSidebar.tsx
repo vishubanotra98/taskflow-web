@@ -19,15 +19,16 @@ import Header from "./Header";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { signOut } from "next-auth/react";
 import { LayoutDashboard, Users } from "lucide-react";
+import { usePathname } from "next/navigation";
 
-export function AppSidebar() {
+export function AppSidebar({ workspaceData }: any) {
   const [teamsOpen, setTeamsOpen] = useState(false);
   const [engineeringOpen, setEngineeringOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   return (
     <Sidebar>
-      <Header />
+      <Header workspaceData={workspaceData} />
 
       <SidebarContent>
         <SidebarGroup>
