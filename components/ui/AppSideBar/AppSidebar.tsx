@@ -19,21 +19,34 @@ import Header from "./Header";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { signOut } from "next-auth/react";
 import { LayoutDashboard, Users } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 export function AppSidebar({ workspaceData }: any) {
   const [teamsOpen, setTeamsOpen] = useState(false);
   const [engineeringOpen, setEngineeringOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const params = useParams();
+  const pathName = usePathname();
+
+  const isActiveItem = (key: string) => {
+    if (pathName.includes(key)) {
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <Sidebar>
-      <Header workspaceData={workspaceData} />
+      <Header userData={workspaceData} />
 
       <SidebarContent>
         <SidebarGroup>
           <Collapsible open={teamsOpen} onOpenChange={setTeamsOpen}>
-            <SidebarMenuButton className="sidebar-transition hover:bg-[#1f2937]">
+            <SidebarMenuButton
+              className={`sidebar-transition flex items-center py-5 px-4 hover:bg-[#1f2937] ${isActiveItem("dashboard") ? " bg-[#1f2937]" : ""}`}
+            >
               <span className="flex items-center gap-1.5 text-14-500-primary ">
                 <LayoutDashboard size={14} className="mb-0.5" /> Dashboard
               </span>
@@ -41,7 +54,7 @@ export function AppSidebar({ workspaceData }: any) {
 
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton className="sidebar-transition hover:bg-[#1f2937]">
+                <SidebarMenuButton className="sidebar-transition flex items-center py-5 px-4 hover:bg-[#1f2937]">
                   <span className="text-14-500-primary flex items-center gap-1.5">
                     <Users size={14} className="mb-0.5" />
                     Teams

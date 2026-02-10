@@ -30,23 +30,18 @@ export function SignupForm() {
   });
 
   const handleSignup = async (formData: RegisterUserWithConfirmSchema) => {
-    try {
-      setLoading(true);
-      const res = await signUpAction(formData);
+    setLoading(true);
+    const res = await signUpAction(formData);
 
-      if (res?.success) {
-        router.push("/sign-in");
-        toast.success("Account created successfully.");
-      }
-
-      if (!res?.success) {
-        toast.error(res.message);
-      }
-    } catch (error) {
-      toast.error("Server Error. Please try again.");
-    } finally {
-      setLoading(false);
+    if (res?.success) {
+      const email = res.data?.email;
+      router.push(`/account-verification?email=${email}`);
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
     }
+
+    setLoading(false);
   };
 
   return (

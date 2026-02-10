@@ -50,7 +50,9 @@ model User {
   lastName              String?            @map("last_name")
   email                 String?            @unique
   password              String?
-  emailVerified         DateTime?          @map("email_verified")
+  emailVerified         Boolean?           @map("email_verified")
+  tokenExpiry           DateTime?
+  verificationToken     String?
   image                 String?
   accounts              Account[]
   sessions              Session[]
@@ -62,15 +64,6 @@ model User {
   lastActiveWorkspaceId String?
 
   @@map("users")
-}
-
-model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
-
-  @@unique([identifier, token])
-  @@map("verification_tokens")
 }
 
 model Workspace {
