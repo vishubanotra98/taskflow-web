@@ -1,5 +1,6 @@
 import TaskBarChart from "@/components/Chart/BarChart";
 import Card from "@/components/ui/Card/Card";
+import prisma from "@/lib/prisma";
 import { Users, UserPlus, CheckCircle2, PlusCircle } from "lucide-react";
 
 const activities = [
@@ -22,10 +23,16 @@ const activities = [
 ];
 
 export default async function Dashboard({ params }: any) {
+  const wsParams = await params;
+
+  const selectedWorkspace = await prisma.workspace.findUnique({
+    where: { id: wsParams.workspaceId },
+  });
+
   return (
     <div className="min-h-screen bg-[#111827] px-6 pb-10 text-[#e5e7eb]">
       <header className="flex justify-between items-center mb-12">
-        <h3 className="text-2xl font-semibold">Workspace Name</h3>
+        <h3 className="text-2xl font-semibold">{selectedWorkspace?.name}</h3>
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#6366f1] hover:bg-[#4f46e5] text-white text-sm font-medium transition-colors">
             <Users size={14} />

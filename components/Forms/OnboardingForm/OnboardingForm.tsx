@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { createWorkspaceAction } from "@/actions/user.actions";
 import { workspaceNameSchema, WorkspaceNameType } from "@/lib/schema";
 import toast from "react-hot-toast";
+import { CirclePlus } from "lucide-react";
 
 export function CreateWorkspaceModal({ userId }: { userId: string }) {
   const [open, setOpen] = useState(false);
@@ -37,7 +38,7 @@ export function CreateWorkspaceModal({ userId }: { userId: string }) {
     if (res?.success) {
       toast.success(res.message);
     } else {
-      toast.success("Error creating workspace.");
+      toast.error("Error creating workspace.");
     }
     setLoading(false);
   };
@@ -45,7 +46,12 @@ export function CreateWorkspaceModal({ userId }: { userId: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="button-primary">Create Workspace</Button>
+        <Button className="button-primary w-full">
+          <span className="flex gap-1.5 items-center">
+            <CirclePlus color="#e5e7eb" size={15} />
+            <span className="text-14-400-primary">Add New Workspace</span>
+          </span>
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-[#1f2937] text-white border-white/10 shadow-2xl">
         <DialogHeader>

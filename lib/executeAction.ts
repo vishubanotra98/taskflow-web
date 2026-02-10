@@ -1,22 +1,21 @@
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { json, ZodError } from "zod";
+import { ZodError } from "zod";
+
+type ActionResponse<T> =
+  | { success: true; message: string; data?: T }
+  | { success: false; message: string };
 
 type Options<T> = {
   actionFn: () => Promise<T>;
   successMessage?: string;
 };
 
-type ActionResult<T> =
-  | { success: true; message: string; data: T }
-  | { success: false; message: string; data?: never };
-
-const executeAction = async <T>({
+export const executeAction = async <T>({
   actionFn,
-  successMessage = "The Action was successful",
-}: Options<T>): Promise<ActionResult<T>> => {
+  successMessage = "Success",
+}: Options<T>): Promise<ActionResponse<T>> => {
   try {
-    const res = await actionFn();
-
+    
     const data = await actionFn();
 
     return {
@@ -24,31 +23,26 @@ const executeAction = async <T>({
       message: successMessage,
       data,
     };
-  } catch (e: any) {
-    if (isRedirectError(e)) {
-      throw e;
+  } catch (error: any) {
+    if (isRedirectError(error)) {
+      throw error;
     }
 
-    if (e.type === "AuthError") {
-      return {
-        success: false,
-        message: e.message,
-      };
-    }
-
-    if (e instanceof ZodError) {
-      const parsedError = JSON.parse(e.message);
+    if (error instanceof ZodError) {
+      const parsedError = JSON.parse(error.message);
       return {
         success: false,
         message: parsedError[0].message || "Invalid Input",
       };
     }
 
+    if (error instanceof Error) {
+      return { success: false, message: error.message };
+    }
+
     return {
       success: false,
-      message: "An error occurred during executing the action.",
+      message: "An unexpected error occurred",
     };
   }
 };
-
-export { executeAction };
