@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, CirclePlus } from "lucide-react";
 import {
   SidebarHeader,
   SidebarMenu,
@@ -18,10 +18,12 @@ import { FolderKanban } from "lucide-react";
 import { useParams } from "next/navigation";
 import { CreateWorkspaceModal } from "@/components/Forms/OnboardingForm/OnboardingForm";
 import Link from "next/link";
+import { Modal } from "@/components/Common/Modal";
 
 const Header = ({ userData }: any) => {
   const [open, setOpen] = useState(false);
   const params = useParams();
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     if (params?.workspaceId) {
@@ -79,7 +81,21 @@ const Header = ({ userData }: any) => {
                   <div className="h-px bg-[#1f2937] my-2" />
 
                   <li className="">
-                    <CreateWorkspaceModal userId={userData?.id} />
+                    <Modal
+                      open={modalOpen}
+                      setOpen={() => setModalOpen((prev) => !prev)}
+                      buttonClassName="w-full"
+                      title="Create your workspace"
+                      buttonInnerText={
+                        <span className="flex gap-1.5 items-center">
+                          <CirclePlus color="#e5e7eb" size={15} />
+                          <span className="text-14-400-primary">
+                            Add New Workspace
+                          </span>
+                        </span>
+                      }
+                      body={<CreateWorkspaceModal userId={userData?.id} />}
+                    />
                   </li>
                 </ul>
               </CollapsibleContent>

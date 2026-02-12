@@ -263,6 +263,12 @@ body {
     color: var(--color-text-primary);
   }
 
+  .text-13-500-primary {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+
   .text-18-500-primary {
     font-size: 18px;
     font-weight: 700;

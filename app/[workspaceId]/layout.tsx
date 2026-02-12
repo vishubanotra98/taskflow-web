@@ -30,10 +30,20 @@ export default async function MainLayout({
     include: { workspaces: { include: { workspace: true } } },
   });
 
+  const teams = await prisma.team.findMany({
+    where: {
+      workspaceId: wsParams?.workspaceID,
+    },
+
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
   return (
     <div>
       <SidebarProvider>
-        <AppSidebar workspaceData={workspaces} />
+        <AppSidebar teams={teams} workspaceData={workspaces} />
         <main className="py-3 px-4 w-full bg-primary-2">
           <SidebarTrigger className=" cursor-pointer bg-transparent hover:bg-[#1f2937]" />
 
