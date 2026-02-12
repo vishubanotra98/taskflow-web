@@ -6,11 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createWorkspaceAction } from "@/actions/user.actions";
-import { workspaceNameSchema, WorkspaceNameType } from "@/lib/schema";
+import { createProjectAction } from "@/actions/user.actions";
+import { projectNameSchema, ProjectNameType } from "@/lib/schema";
 import toast from "react-hot-toast";
 
-export function CreateWorkspaceModal({ userId }: { userId: string }) {
+export function CreateProjectModal({ teamId }: { teamId: string }) {
   const [loading, setLoading] = useState(false);
 
   const {
@@ -18,18 +18,18 @@ export function CreateWorkspaceModal({ userId }: { userId: string }) {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(workspaceNameSchema),
+    resolver: zodResolver(projectNameSchema),
   });
 
-  const onSubmit = async (wsName: WorkspaceNameType) => {
+  const onSubmit = async ({ projectName }: ProjectNameType) => {
     setLoading(true);
 
-    let res = await createWorkspaceAction(wsName, userId);
+    let res = await createProjectAction(projectName, teamId);
 
     if (res?.success) {
       toast.success(res.message);
     } else {
-      toast.error("Error creating workspace.");
+      toast.error("Error creating project.");
     }
     setLoading(false);
   };
@@ -38,17 +38,17 @@ export function CreateWorkspaceModal({ userId }: { userId: string }) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pt-2">
       <div className="space-y-2">
         <label className="text-sm font-medium text-gray-300">
-          Workspace Name
+          Project Name
         </label>
         <Input
-          {...register("name")}
+          {...register("projectName")}
           placeholder="Eg: Acme Corp"
-          className={`primary-input mt-0.5 ${errors.name ? "error" : ""}`}
+          className={`primary-input mt-0.5 ${errors.projectName ? "error" : ""}`}
           required
           maxLength={50}
         />
-        {errors.name && (
-          <p className="text-sm text-red-400">{errors.name.message}</p>
+        {errors.projectName && (
+          <p className="text-sm text-red-400">{errors.projectName.message}</p>
         )}
       </div>
 
@@ -58,7 +58,7 @@ export function CreateWorkspaceModal({ userId }: { userId: string }) {
           className="w-full button-primary shadow-lg shadow-indigo-500/20"
           disabled={loading}
         >
-          {loading ? "Creating..." : "Create Workspace"}
+          {loading ? "Creating..." : "Create Project"}
         </Button>
       </div>
     </form>

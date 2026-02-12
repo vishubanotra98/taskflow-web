@@ -1,7 +1,10 @@
 import TaskBarChart from "@/components/Chart/BarChart";
+import { Modal } from "@/components/Common/Modal";
+import DashboardButton from "@/components/Common/TeamDashboardButton";
 import Card from "@/components/ui/Card/Card";
+import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { Users, UserPlus, CheckCircle2, PlusCircle } from "lucide-react";
+import { CheckCircle2, PlusCircle } from "lucide-react";
 
 const activities = [
   {
@@ -24,25 +27,23 @@ const activities = [
 
 export default async function Dashboard({ params }: any) {
   const wsParams = await params;
+  const session = await auth();
 
   const selectedWorkspace = await prisma.workspace.findUnique({
     where: { id: wsParams.workspaceId },
+  });
+
+  const totalTeamCount = await prisma.team.count({
+    where: {
+      workspaceId: wsParams?.workspaceID,
+    },
   });
 
   return (
     <div className="min-h-screen bg-[#111827] px-6 pb-10 text-[#e5e7eb]">
       <header className="flex justify-between items-center mb-12">
         <h3 className="text-2xl font-semibold">{selectedWorkspace?.name}</h3>
-        <div className="flex items-center gap-2">
-          <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#6366f1] hover:bg-[#4f46e5] text-white text-sm font-medium transition-colors">
-            <Users size={14} />
-            Create Team
-          </button>
-          <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#6366f1] hover:bg-[#4f46e5] text-white text-sm font-medium transition-colors">
-            <UserPlus size={14} />
-            Invite Member
-          </button>
-        </div>
+        <DashboardButton />
       </header>
 
       <main className="space-y-10">
@@ -51,7 +52,7 @@ export default async function Dashboard({ params }: any) {
           <div className="flex flex-wrap gap-4">
             <Card
               title="Teams"
-              data={1}
+              data={totalTeamCount}
               className="bg-[#1f2937] border-white/5"
             />
             <Card

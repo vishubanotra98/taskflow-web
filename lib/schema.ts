@@ -43,11 +43,6 @@ export const registerUserWithConfirmSchema = userSchema
     path: ["confirmPassword"],
   });
 
-export type RegisterUserWithConfirmSchema = z.infer<
-  typeof registerUserWithConfirmSchema
->;
-export type SignInSchema = z.infer<typeof signInSchema>;
-
 export const workspaceNameSchema = z.object({
   name: z
     .string()
@@ -55,4 +50,24 @@ export const workspaceNameSchema = z.object({
     .max(50, "Workspace name must not exceed 50 characters."),
 });
 
+export const teamNameSchema = z.object({
+  teamName: z
+    .string()
+    .min(3, "Team name must be at least 3 characters")
+    .max(50, "Team name must not exceed 50 characters."),
+});
+
+export const projectNameSchema = z.object({
+  projectName: z
+    .string()
+    .min(3, "Project name must be at least 3 characters")
+    .max(50, "Project name must not exceed 50 characters."),
+});
+
+export type RegisterUserWithConfirmSchema = z.infer<
+  typeof registerUserWithConfirmSchema
+>;
+export type SignInSchema = z.infer<typeof signInSchema>;
 export type WorkspaceNameType = z.infer<typeof workspaceNameSchema>;
+export type TeamNameType = z.infer<typeof teamNameSchema>;
+export type ProjectNameType = z.infer<typeof projectNameSchema>;

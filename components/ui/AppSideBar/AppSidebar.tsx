@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  LayoutDashboard,
+  Users,
+  Plus,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -18,125 +24,169 @@ import {
 import Header from "./Header";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { signOut } from "next-auth/react";
-import { LayoutDashboard, Users } from "lucide-react";
-import { useParams, usePathname } from "next/navigation";
+import { useRouter, useParams, usePathname } from "next/navigation";
+import Link from "next/link";
+import { Modal } from "@/components/Common/Modal";
+import { CreateProjectModal } from "@/components/Forms/ProjectForm/ProjectForm";
 
-export function AppSidebar({ workspaceData }: any) {
-  const [teamsOpen, setTeamsOpen] = useState(false);
-  const [engineeringOpen, setEngineeringOpen] = useState(false);
+export function AppSidebar({ workspaceData, teams }: any) {
+  const [teamsOpen, setTeamsOpen] = useState(true); // Default to open for better UX
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
   const params = useParams();
   const pathName = usePathname();
 
-  const isActiveItem = (key: string) => {
-    if (pathName.includes(key)) {
-      return true;
-    }
-
-    return false;
-  };
+  const isActiveItem = (key: string) => pathName.includes(key);
 
   return (
     <Sidebar>
       <Header userData={workspaceData} />
 
-      <SidebarContent>
+      <SidebarContent className="gap-0">
         <SidebarGroup>
-          <Collapsible open={teamsOpen} onOpenChange={setTeamsOpen}>
-            <SidebarMenuButton
-              className={`sidebar-transition flex items-center py-5 px-4 hover:bg-[#1f2937] ${isActiveItem("dashboard") ? " bg-[#1f2937]" : ""}`}
-            >
-              <span className="flex items-center gap-1.5 text-14-500-primary ">
-                <LayoutDashboard size={14} className="mb-0.5" /> Dashboard
-              </span>
-            </SidebarMenuButton>
+          {/* 1. Dashboard Link (Moved outside of Teams Collapsible) */}
+          <SidebarMenuButton
+            onClick={() => router.push(`/${params?.workspaceId}/dashboard`)}
+            className={`w-full justify-start py-6 px-4 hover:bg-[#1f2937] transition-colors mb-1 ${
+              isActiveItem("dashboard") ? "bg-[#1f2937]" : ""
+            }`}
+          >
+            <LayoutDashboard size={18} className="mr-2 text-[#6b7280]" />
+            <span className="text-sm font-medium text-[#e5e7eb]">
+              Dashboard
+            </span>
+          </SidebarMenuButton>
 
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton className="sidebar-transition flex items-center py-5 px-4 hover:bg-[#1f2937]">
-                  <span className="text-14-500-primary flex items-center gap-1.5">
-                    <Users size={14} className="mb-0.5" />
+          {/* 2. Teams Group */}
+          <Collapsible
+            open={teamsOpen}
+            onOpenChange={setTeamsOpen}
+            className="mt-2"
+          >
+            <CollapsibleTrigger asChild>
+              <SidebarMenuButton className="w-full justify-between py-6 px-4 hover:bg-[#1f2937] transition-colors group">
+                <div className="flex items-center">
+                  <Users size={18} className="mr-2 text-[#6b7280]" />
+                  <span className="text-sm font-medium text-[#e5e7eb]">
                     Teams
                   </span>
-                  <span
-                    className={`ml-auto chevron-rotate ${teamsOpen ? "open" : ""}`}
-                  >
-                    <ChevronDown color="#e5e7eb" size={14} />
-                  </span>
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
+                </div>
+                <ChevronDown
+                  size={14}
+                  className={`text-[#6b7280] transition-transform duration-200 ${
+                    teamsOpen ? "rotate-0" : "-rotate-90"
+                  }`}
+                />
+              </SidebarMenuButton>
+            </CollapsibleTrigger>
 
-              <CollapsibleContent className="sidebar-transition">
-                <ul className="space-y-1 mt-2 ml-2">
-                  <li>
-                    <Collapsible
-                      open={engineeringOpen}
-                      onOpenChange={setEngineeringOpen}
-                    >
-                      <CollapsibleTrigger asChild>
-                        <button className="sidebar-item w-full text-left px-3 py-2 rounded-md flex items-center justify-between">
-                          <span className="text-14-400-primary">
-                            Engineering
-                          </span>
-                          <span
-                            className={`chevron-rotate ${engineeringOpen ? "open" : ""}`}
-                          >
-                            <ChevronDown color="#e5e7eb" size={12} />
-                          </span>
-                        </button>
-                      </CollapsibleTrigger>
-
-                      <CollapsibleContent className="sidebar-transition ml-3 mt-1">
-                        <ul className="space-y-1">
-                          <li>
-                            <button className="text-white sidebar-item w-full text-left px-3 py-1.5 rounded-md text-sm text-text-secondary">
-                              Website Redesign
-                            </button>
-                          </li>
-                          <li>
-                            <button className=" text-white sidebar-item w-full text-left px-3 py-1.5 rounded-md text-sm text-text-secondary">
-                              Mobile App
-                            </button>
-                          </li>
-                        </ul>
-                      </CollapsibleContent>
-                    </Collapsible>
-                  </li>
-                </ul>
-              </CollapsibleContent>
-            </SidebarMenuItem>
+            <CollapsibleContent>
+              <ul className="flex flex-col gap-1 mt-1 px-2">
+                {teams?.map((team: any) => (
+                  <TeamItem key={team.id} team={team} params={params} />
+                ))}
+              </ul>
+            </CollapsibleContent>
           </Collapsible>
         </SidebarGroup>
       </SidebarContent>
-      <div className="h-px bg-[#1f2937] my-2" />
+
+      <div className="h-px bg-[#1f2937] mx-4 my-2 opacity-50" />
 
       <SidebarFooter className="p-4">
-        <div className="flex items-center justify-between w-full">
-          <Avatar className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full bg-slate-200">
+        <div className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-[#1f2937] transition-colors">
+          <Avatar className="h-8 w-8 rounded-full border border-[#1f2937] bg-[#111827] shrink-0">
             <AvatarImage
               src="https://github.com/shadcn.png"
-              alt="@shadcn"
-              className="aspect-square h-full w-full object-cover"
+              className="object-cover rounded-full"
             />
-            <AvatarFallback className="flex h-full w-full items-center justify-center rounded-full bg-slate-400 text-xs font-medium">
+            <AvatarFallback className="rounded-full text-[#e5e7eb]">
               CN
             </AvatarFallback>
           </Avatar>
 
-          <button
-            onClick={() => {
-              setLoading(true);
-              signOut();
-              setLoading(false);
-            }}
-            disabled={loading}
-            className="px-3 py-1 text-sm font-bold text-red-700 bg-red-100 border border-red-600 rounded-md hover:bg-red-200 transition-colors"
-          >
-            {loading ? "Logging Out..." : "Logout"}
-          </button>
+          <div className="flex-1 overflow-hidden">
+            <p className="text-sm font-medium truncate text-[#e5e7eb]">
+              User Name
+            </p>
+            <button
+              onClick={() => {
+                setLoading(true);
+                signOut();
+              }}
+              disabled={loading}
+              className="text-xs text-[#6b7280] hover:text-red-500 transition-colors text-left"
+            >
+              {loading ? "Logging out..." : "Log out"}
+            </button>
+          </div>
         </div>
       </SidebarFooter>
     </Sidebar>
   );
 }
+
+function TeamItem({ team, params }: any) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  return (
+    <li>
+      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+        <CollapsibleTrigger asChild>
+          <button className="flex items-center justify-between w-full p-2 rounded-md hover:bg-[#1f2937] transition-colors group">
+            <span className="flex items-center text-sm text-[#e5e7eb]">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-3" />
+              {team?.name}
+            </span>
+            <ChevronRight
+              size={14}
+              className={`text-[#6b7280] transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`}
+            />
+          </button>
+        </CollapsibleTrigger>
+
+        <CollapsibleContent className="pl-4 pr-1 pb-2 pt-1">
+          {/* Projects Divider - MOVED INSIDE THE TEAM */}
+          <div className="flex items-center my-2 opacity-60">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#6b7280]">
+              Projects
+            </span>
+            <span className="h-[1px] flex-1 bg-[#374151] ml-2"></span>
+          </div>
+
+          <ul className="space-y-0.5 border-l border-[#1f2937] ml-1 pl-3">
+            {/* Project List */}
+            <li>
+              <Link
+                href={`/${params?.workspaceId}/project/example-id`}
+                className="block text-sm text-[#6b7280] hover:text-[#e5e7eb] py-1.5 transition-colors"
+              >
+                Website Redesign
+              </Link>
+            </li>
+
+            <li className="pt-1">
+              <Modal
+                open={isModalOpen}
+                setOpen={() => setIsModalOpen((prev) => !prev)}
+                title="Create Project"
+                body={<CreateProjectModal teamId={team?.id} />}
+                buttonClassName="w-full"
+                buttonInnerText={
+                  <div className="flex items-center text-xs  transition-colors cursor-pointer py-1">
+                    <Plus size={12} className="mr-2" />
+                    Create Project
+                  </div>
+                }
+              />
+            </li>
+          </ul>
+        </CollapsibleContent>
+      </Collapsible>
+    </li>
+  );
+}
+
+
