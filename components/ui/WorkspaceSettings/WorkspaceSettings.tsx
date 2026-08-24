@@ -7,7 +7,7 @@ import {
   fetchWorkspaceMambersAction,
 } from "@/Store/actions/workspace.action";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import MembersTabContent from "./MemberSettings";
@@ -33,13 +33,17 @@ const WorkspaceSettings = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
   const workspaceId = params?.workspaceId as string;
+  const searchParams = useSearchParams();
+  const github = Boolean(searchParams.get("github"));
 
   const {
     userData: { user },
     workspaceData: { workspaceMembers, teamsData, teamsWorkspaceId },
   } = useAppSelector((store: any) => store);
 
-  const [option, setOption] = useState<OptionTypes>("members");
+  const [option, setOption] = useState<OptionTypes>(
+    github ? "integration" : "members",
+  );
   const [projects, setProjects] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [deletedProjects, setDeletedProjects] = useState<any | null>(null);
