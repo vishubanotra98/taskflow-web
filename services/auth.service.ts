@@ -42,3 +42,14 @@ export const logoutService = async () => {
     throw error;
   }
 };
+
+export const githubStatusService = async (workspaceId: string) => {
+  try {
+    const res = await axiosClient.get(
+      `${`/auth/github/status/${workspaceId}`}`,
+    );
+    return res?.data;
+  } catch (error) {
+    throw error;
+  }
+};

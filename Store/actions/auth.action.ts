@@ -1,4 +1,5 @@
 import {
+  githubStatusService,
   logoutService,
   otpVerificationService,
   signInService,
@@ -52,6 +53,18 @@ export const logoutAction = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await logoutService();
+      return res;
+    } catch (err: any) {
+      return rejectWithValue(err?.response?.data);
+    }
+  },
+);
+
+export const githubStatusAction = createAsyncThunk<string, any>(
+  "githubStatus",
+  async (workspaceId, { rejectWithValue }) => {
+    try {
+      const res = await githubStatusService(workspaceId);
       return res;
     } catch (err: any) {
       return rejectWithValue(err?.response?.data);
