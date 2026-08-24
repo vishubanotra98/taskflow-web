@@ -71,7 +71,7 @@ export const IntegrationTab = () => {
     const top = window.screenY + (window.outerHeight - height) / 2;
 
     const popup = window.open(
-      `${process.env.NEXT_PUBLIC_BASE_URL_API}/auth/login/github?workspaceId=${workspaceId}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL_API}auth/login/github?workspaceId=${workspaceId}`,
       "github-oauth",
       `width=${width},height=${height},left=${left},top=${top}`,
     );
