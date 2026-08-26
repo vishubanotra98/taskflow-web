@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  fetchActivitiesAction,
+  fetchTeamsDataAction,
   permanentDeleteProjectAction,
   permanentDeleteTeamAction,
   restoreProjectAction,
@@ -22,6 +24,7 @@ import { NewDeleteModal } from "@/components/Common/DeleteModal";
 import { Spinner } from "../Spinner/spinner";
 import { SuccessToast } from "../Toast/SuccessToast";
 import { ErrorToast } from "../Toast/ErrorToast";
+import { useParams } from "next/navigation";
 
 const formatDeletedAt = (date: string) => {
   return new Intl.DateTimeFormat("en-US", {
@@ -46,6 +49,8 @@ export default function TrashContentTab({
   const [deleteSpin, setDeleteSpin] = useState(false);
   const [projectSpin, setProjectSpin] = useState(false);
   const [teamSpin, setTeamSpin] = useState(false);
+  const params = useParams();
+  const workspaceId = params?.workspaceId as string;
 
   const onPermanentDeleteTeam = async (teamId: string) => {
     const res = await dispatch(permanentDeleteTeamAction(teamId)).unwrap();
@@ -100,12 +105,15 @@ export default function TrashContentTab({
       ));
     }
     await fetchData();
+    await dispatch(fetchTeamsDataAction(workspaceId));
+    await dispatch(fetchActivitiesAction(workspaceId));
     setTeamSpin(false);
   };
 
   const onRestoreProject = async (projectId: string) => {
     setProjectSpin(true);
     const res = await dispatch(restoreProjectAction(projectId)).unwrap();
+    // await dispatch(fetchTeamsDataAction(workspaceId));
     if (res?.success) {
       toast.custom((t) => (
         <SuccessToast t={t} title="Success" description={"Project restored."} />
