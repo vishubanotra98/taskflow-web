@@ -271,7 +271,20 @@ export const permanentDeleteTeamService = async (teamId: string) => {
 
 export const getMyIssuesService = async (workspaceId: string) => {
   try {
-    const res = await axiosClient.get(`/api/v1/workspace/${workspaceId}/my-issues`);
+    const res = await axiosClient.get(
+      `/api/v1/workspace/${workspaceId}/my-issues`,
+    );
+    return res?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchGithubRepoService = async (workspaceId: string) => {
+  try {
+    const res = await axiosClient.get(
+      `/api/v1/workspace/${workspaceId}/github/repos`,
+    );
     return res?.data;
   } catch (error) {
     throw error;
