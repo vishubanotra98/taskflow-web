@@ -1,7 +1,7 @@
 "use client";
 
 import { Users, FolderGit2, Trash2, Plus } from "lucide-react";
-import { useAppDispatch } from "@/Store/hooks";
+import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Modal } from "@/components/Common/Modal";
@@ -20,6 +20,10 @@ import { ErrorToast } from "../Toast/ErrorToast";
 
 const TeamsProjectsTabContent = ({ projects, teams, fetchData }: any) => {
   const dispatch = useAppDispatch();
+  const {
+    workspaceData: { teamsData },
+  } = useAppSelector((store: any) => store);
+
   const [open, setOpen] = useState(false);
   const [projectOpen, setProjectOpen] = useState(false);
   const [load, setLoad] = useState(false);
@@ -212,7 +216,13 @@ const TeamsProjectsTabContent = ({ projects, teams, fetchData }: any) => {
             setOpen={setProjectOpen}
             title="Create project"
             body={
-              <CreateProjectModal setIsModalOpen={setProjectOpen} teamId={""} />
+              <CreateProjectModal
+                fromSettings={true}
+                setIsModalOpen={setProjectOpen}
+                teamId={""}
+                teamsList={teamsData}
+                fetchData={fetchData}
+              />
             }
             buttonClassName="group inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-default bg-card px-3.5 py-2 text-sm font-medium text-primary shadow-sm transition-all duration-200 hover:border-brand hover:bg-accent hover:text-brand active:scale-[0.98] cursor-pointer"
             buttonInnerText={

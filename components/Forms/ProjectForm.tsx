@@ -26,13 +26,21 @@ import {
 import { projectNameSchema, ProjectNameType } from "@/lib/schema";
 import { SuccessToast } from "../ui/Toast/SuccessToast";
 import { ErrorToast } from "../ui/Toast/ErrorToast";
+import Select from "react-select";
+import { commonSelectStyles2 } from "@/utils/styles";
 
 export function CreateProjectModal({
   teamId,
   setIsModalOpen,
+  fromSettings = false,
+  teamsList = null,
+  fetchData = null,
 }: {
   teamId: string;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  fromSettings?: boolean;
+  teamsList?: any;
+  fetchData?: any;
 }) {
   const dispatch = useAppDispatch();
   const params = useParams();
@@ -40,6 +48,7 @@ export function CreateProjectModal({
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState<Date>();
   const [open, setOpen] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState<any | null>(null);
 
   const {
     register,
@@ -57,7 +66,7 @@ export function CreateProjectModal({
       setLoading(true);
 
       const payload = {
-        teamId,
+        teamId: fromSettings ? selectedTeam?.id : teamId,
         projectName,
         projectOverview,
         targetDate: date,
@@ -65,13 +74,17 @@ export function CreateProjectModal({
 
       const res = await dispatch(createProjectAction(payload)).unwrap();
 
+      if (fromSettings) {
+        fetchData();
+      }
+
       if (res.success) {
         await dispatch(
           fetchTeamsDataAction(params.workspaceId as string),
         ).unwrap();
 
         toast.custom((t) => (
-          <SuccessToast t={t} title="Success" description={res.message} />
+          <SuccessToast t={t} title="Success" description={res?.message} />
         ));
         setIsModalOpen(false);
       }
@@ -104,6 +117,31 @@ export function CreateProjectModal({
           </p>
         )}
       </div>
+
+      {fromSettings && (
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-primary">
+            Select Team
+          </label>
+
+          <Select
+            className="mt-1.5"
+            options={teamsList?.teamData}
+            value={
+              teamsList?.teamData?.find(
+                (team: any) => team?.id === selectedTeam?.id,
+              ) || null
+            }
+            onChange={(team) => setSelectedTeam(team)}
+            getOptionValue={(value: any) => value?.id}
+            getOptionLabel={(value: any) => value?.name}
+            placeholder="All Teams"
+            isClearable
+            isSearchable={false}
+            styles={commonSelectStyles2}
+          />
+        </div>
+      )}
 
       <div className="space-y-1.5">
         <label className="text-sm font-medium text-primary">

@@ -154,21 +154,28 @@ export const commonSelectStyles2: StylesConfig = {
 
   option: (base, state) => ({
     ...base,
+
     padding: "10px 12px",
-    margin:"5px 0",
+    margin: "5px 0",
     borderRadius: 8,
+
     fontSize: 14,
     cursor: "pointer",
+
     backgroundColor: state.isSelected
       ? "var(--primary)"
       : state.isFocused
-        ? "var(--secondary)"
+        ? "rgba(20, 184, 166, 0.12)"
         : "transparent",
 
     color: state.isSelected ? "var(--primary-foreground)" : "var(--foreground)",
+
     transition: "all .15s ease",
+
     ":active": {
-      backgroundColor: state.isSelected ? "var(--primary)" : "var(--secondary)",
+      backgroundColor: state.isSelected
+        ? "var(--primary)"
+        : "rgba(20, 184, 166, 0.18)",
     },
   }),
 
