@@ -372,10 +372,10 @@ function TrashItem({
 
       <div className="flex shrink-0 items-center gap-2">
         <Button
-          type="button"
+          variant={"soft"}
+          iconAnimation="flip"
           onClick={onRestore}
           disabled={load}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-brand/30 bg-accent/10 px-3 py-1.5 text-xs font-medium text-brand transition-fast hover:border-brand/50 hover:bg-accent/20 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {load ? <Spinner color="bg-brand" /> : <RotateCcw size={13} />}
           Restore

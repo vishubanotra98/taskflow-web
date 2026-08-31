@@ -17,10 +17,12 @@ interface ModalTypes {
   buttonClassName?: string;
   title: string;
   body: React.ReactNode;
-  buttonVariant?: "default" | "secondary" | "outline" | "ghost" | "destructive";
+  buttonVariant?:
+    "default" | "secondary" | "outline" | "ghost" | "destructive" | "soft";
   buttonSize?: "lg" | "default" | "sm" | "icon";
   subHeading?: string;
   modalWidth?: string;
+  iconAnimate?: "none" | "spin" | "tilt" | "flip" | "scale" | "spin-ccw";
 }
 
 export function Modal({
@@ -34,6 +36,7 @@ export function Modal({
   buttonVariant = "default",
   subHeading,
   modalWidth = "670px",
+  iconAnimate = "none",
 }: ModalTypes) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -42,6 +45,7 @@ export function Modal({
           className={buttonClassName}
           variant={buttonVariant}
           size={buttonSize}
+          iconAnimation={iconAnimate}
         >
           {buttonInnerText}
         </Button>

@@ -13,6 +13,7 @@ import {
   fetchIssuesByProjectService,
   fetchIssuesService,
   fetchProjectByIdService,
+  fetchProjectRepoService,
   fetchProjectsService,
   fetchTeamsDataService,
   fetchUserService,
@@ -26,6 +27,7 @@ import {
   projectSoftDeleteService,
   restoreProjectService,
   restoreTeamService,
+  selectRepoService,
   teamSoftDeleteService,
 } from "@/services/workspace.service";
 import {
@@ -377,6 +379,37 @@ export const fetchGithubReposAction = createAsyncThunk<any, string>(
   async (workspaceId, { rejectWithValue }) => {
     try {
       const res = await fetchGithubRepoService(workspaceId);
+      return res;
+    } catch (err: any) {
+      return rejectWithValue(err?.response?.data);
+    }
+  },
+);
+
+export const fetchProjectReposAction = createAsyncThunk<any, string>(
+  "projectRepos",
+  async (projectId, { rejectWithValue }) => {
+    try {
+      const res = await fetchProjectRepoService(projectId);
+      return res;
+    } catch (err: any) {
+      return rejectWithValue(err?.response?.data);
+    }
+  },
+);
+
+export const selectRepoAction = createAsyncThunk<any, any>(
+  "selectProjectRepo",
+  async (
+    { workspaceId, projectId, repoId, repoFullName },
+    { rejectWithValue },
+  ) => {
+    try {
+      const res = await selectRepoService(workspaceId, projectId, {
+        repoId,
+        repoFullName,
+      });
+
       return res;
     } catch (err: any) {
       return rejectWithValue(err?.response?.data);
