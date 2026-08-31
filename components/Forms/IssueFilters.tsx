@@ -107,13 +107,9 @@ export function IssueFilters({
       <PopoverTrigger asChild>
         <Button
           type="button"
-          variant="secondary"
-          className={cn(
-            "h-12 gap-2 border border-default bg-card px-4",
-            "text-sm font-medium text-primary",
-            "hover:border-brand",
-            open && "border-brand ring-4 ring-[rgba(20,184,166,0.12)]",
-          )}
+          variant="soft"
+          iconAnimation="scale"
+          className={cn(open && "border-brand ring-[rgba(20,184,166,0.12)]")}
         >
           <Filter size={16} />
 

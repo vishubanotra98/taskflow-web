@@ -96,7 +96,8 @@ const MembersTabContent = ({ workspaceMembers, currentUser }: any) => {
         </div>
 
         <Modal
-          buttonClassName="group inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-default bg-card px-3.5 py-2 text-sm font-medium text-primary transition-all duration-200 hover:border-brand hover:bg-accent hover:text-brand active:scale-[0.98] cursor-pointer active:bg-card"
+          buttonVariant="soft"
+          iconAnimate="scale"
           modalWidth="600px"
           buttonInnerText={
             <span className="flex items-center justify-center gap-2">

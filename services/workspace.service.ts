@@ -290,3 +290,32 @@ export const fetchGithubRepoService = async (workspaceId: string) => {
     throw error;
   }
 };
+
+export const fetchProjectRepoService = async (projectId: string) => {
+  try {
+    const res = await axiosClient.get(`/api/v1/repositories/${projectId}`);
+    return res?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const selectRepoService = async (
+  workspaceId: string,
+  projectId: string,
+  data: {
+    repoId: number;
+    repoFullName: string;
+  },
+) => {
+  try {
+    const res = await axiosClient.post(
+      `/api/v1/workspace/${workspaceId}/project/${projectId}/repositories`,
+      data,
+    );
+
+    return res?.data;
+  } catch (error) {
+    throw error;
+  }
+};
