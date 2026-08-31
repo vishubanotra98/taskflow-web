@@ -2,10 +2,10 @@
 
 import { IssueFilters } from "@/components/Forms/IssueFilters";
 import SubtendLoader from "@/components/Loader/SubtendLoader";
+import { Button } from "@/components/ui/button";
 import KanbanClient from "@/components/ui/KanbanBoard/KanbanClient";
 import { SearchInput } from "@/components/ui/searchBar";
 import {
-  fetchGithubReposAction,
   fetchIssuesByProjectAction,
   fetchProjectByIdAction,
   fetchWorkspaceMambersAction,
@@ -14,11 +14,9 @@ import {
 } from "@/Store/actions/workspace.action";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { priorityList } from "@/utils/constants";
-import { commonSelectStyles2 } from "@/utils/styles";
-import { Github } from "lucide-react";
-import { useParams } from "next/navigation";
+import { Settings } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import Select from "react-select";
 
 type IssueFiltersState = {
   startDate: Date | null;
@@ -30,6 +28,7 @@ type IssueFiltersState = {
 
 export default function ProjectIssue() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const {
     workspaceData: { workspaceMembers, workspaceStatus, teamsData },
@@ -45,9 +44,6 @@ export default function ProjectIssue() {
   const teamId = params.teamId;
   const projectId = params.projectId;
 
-  const [githubRepos, setGithubRepos] = useState<any[]>([]);
-  const [selectedRepo, setSelectedRepo] = useState<any>(null);
-  const [githubLoading, setGithubLoading] = useState(false);
   const [issues, setIssues] = useState<any[]>([]);
   const [project, setProject] = useState<any>(null);
 
@@ -226,31 +222,6 @@ export default function ProjectIssue() {
     }
   };
 
-  const handleGithubMenuOpen = async () => {
-    if (githubRepos.length > 0) return;
-
-    try {
-      setGithubLoading(true);
-
-      const response = await dispatch(
-        fetchGithubReposAction(workspaceId),
-      ).unwrap();
-
-      setGithubRepos(response?.data?.repositories ?? []);
-    } catch (error) {
-      console.error("Failed to fetch GitHub repositories:", error);
-    } finally {
-      setGithubLoading(false);
-    }
-  };
-
-  const githubRepoOptions = githubRepos.map((repo) => ({
-    value: repo.id,
-    label: repo.fullName,
-    private: repo.private,
-    user_name: repo.user_name,
-  }));
-
   const data = {
     projectId,
     workspaceMembers,
@@ -288,44 +259,6 @@ export default function ProjectIssue() {
 
           <div className="flex items-center justify-end">
             <div className="flex items-center gap-3">
-              <Select
-                options={githubRepoOptions}
-                value={selectedRepo}
-                onChange={setSelectedRepo}
-                onMenuOpen={handleGithubMenuOpen}
-                isLoading={githubLoading}
-                isClearable
-                isSearchable
-                placeholder="GitHub repository"
-                noOptionsMessage={() => "No repositories found"}
-                components={{
-                  DropdownIndicator: () => (
-                    <Github size={15} className="text-secondary mr-3" />
-                  ),
-                }}
-                styles={{
-                  ...commonSelectStyles2,
-
-                  control: (base, state) => ({
-                    ...commonSelectStyles2.control!(base, state),
-                    minWidth: 230,
-                  }),
-
-                  singleValue: (base) => ({
-                    ...base,
-                    color: "var(--foreground)",
-                    fontSize: 13,
-                    fontWeight: 500,
-                  }),
-
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "var(--muted-foreground)",
-                    fontSize: 13,
-                  }),
-                }}
-              />
-
               <SearchInput
                 className="w-[350px]"
                 placeholder="Search issue by number or keyword"
@@ -341,6 +274,19 @@ export default function ProjectIssue() {
                 issuesLoading={issuesLoading}
                 onApply={handleApplyFilters}
               />
+
+              <Button
+                variant="soft"
+                iconAnimation="spin-ccw"
+                onClick={() =>
+                  router.push(
+                    `/${workspaceId}/team/${teamId}/project/${projectId}/settings`,
+                  )
+                }
+              >
+                <Settings size={14} strokeWidth={1.8} />
+                Settings
+              </Button>
             </div>
           </div>
         </div>
