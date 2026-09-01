@@ -114,8 +114,6 @@ export default function ProjectSettingsPage() {
       return;
     }
 
-    console.log(repo);
-
     try {
       setSelectingRepoId(repo.id);
       const response = await dispatch(
