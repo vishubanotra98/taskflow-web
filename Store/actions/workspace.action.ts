@@ -401,13 +401,15 @@ export const fetchProjectReposAction = createAsyncThunk<any, string>(
 export const selectRepoAction = createAsyncThunk<any, any>(
   "selectProjectRepo",
   async (
-    { workspaceId, projectId, repoId, repoFullName },
+    { workspaceId, projectId, repoId, repoFullName, repoName, ownerName },
     { rejectWithValue },
   ) => {
     try {
       const res = await selectRepoService(workspaceId, projectId, {
         repoId,
         repoFullName,
+        repoName,
+        ownerName,
       });
 
       return res;
