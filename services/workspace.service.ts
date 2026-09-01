@@ -306,6 +306,8 @@ export const selectRepoService = async (
   data: {
     repoId: number;
     repoFullName: string;
+    repoName: string;
+    ownerName: string;
   },
 ) => {
   try {

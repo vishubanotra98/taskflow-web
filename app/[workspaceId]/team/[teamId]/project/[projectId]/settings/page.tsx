@@ -120,8 +120,10 @@ export default function ProjectSettingsPage() {
         selectRepoAction({
           workspaceId,
           projectId,
-          repoId: repo.id,
-          repoFullName: repo.fullName,
+          repoId: repo?.id,
+          repoFullName: repo?.fullName,
+          repoName: repo?.name,
+          ownerName: repo?.user_name,
         }),
       ).unwrap();
 
@@ -262,7 +264,7 @@ export default function ProjectSettingsPage() {
 
                     <div className="max-h-[280px] space-y-1 overflow-y-auto pr-1">
                       {githubRepos?.map((repo: any) => {
-                        const isConnected = projectRepos.some(
+                        const isConnected = projectRepos?.some(
                           (projectRepo) => projectRepo?.repoId === repo?.id,
                         );
 
