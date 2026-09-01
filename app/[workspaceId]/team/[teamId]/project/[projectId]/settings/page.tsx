@@ -372,7 +372,7 @@ export default function ProjectSettingsPage() {
           )}
         </section>
 
-        {repository && (
+        {/* {repository && (
           <>
             <div className="my-8 border-t border-default" />
 
@@ -410,7 +410,7 @@ export default function ProjectSettingsPage() {
               </div>
             </section>
           </>
-        )}
+        )} */}
       </div>
     </main>
   );
