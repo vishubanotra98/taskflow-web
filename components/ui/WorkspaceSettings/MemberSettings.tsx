@@ -78,7 +78,7 @@ const MembersTabContent = ({ workspaceMembers, currentUser }: any) => {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent">
@@ -112,29 +112,29 @@ const MembersTabContent = ({ workspaceMembers, currentUser }: any) => {
         />
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-default bg-card">
+      <div className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-default bg-secondary/20">
+          <thead className="border-b border-border bg-secondary">
             <tr>
-              <th className="px-5 py-3.5 text-[11px] font-medium uppercase tracking-wide text-secondary">
+              <th className="px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-secondary">
                 Member
               </th>
 
-              <th className="px-5 py-3.5 text-[11px] font-medium uppercase tracking-wide text-secondary">
+              <th className="px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-secondary">
                 Email
               </th>
 
-              <th className="px-5 py-3.5 text-[11px] font-medium uppercase tracking-wide text-secondary">
+              <th className="px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-secondary">
                 Role
               </th>
 
-              <th className="px-5 py-3.5 text-[11px] font-medium uppercase tracking-wide text-secondary">
+              <th className="px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-secondary">
                 Actions
               </th>
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-default">
+          <tbody className="divide-y divide-border">
             {workspaceMembers?.map((member: any) => {
               const user = member?.user;
 
@@ -147,17 +147,17 @@ const MembersTabContent = ({ workspaceMembers, currentUser }: any) => {
               return (
                 <tr
                   key={user?.id}
-                  className="transition-colors duration-150 hover:bg-secondary/10"
+                  className="transition-colors duration-150 hover:bg-accent"
                 >
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
-                      <Avatar className="h-8 w-8 shrink-0 rounded-full border border-default bg-secondary">
+                      <Avatar className="h-8 w-8 shrink-0 rounded-full border border-border bg-secondary">
                         <AvatarImage
                           src={user?.image}
                           className="rounded-full object-cover"
                         />
 
-                        <AvatarFallback className="rounded-full h-full flex justify-center items-center bg-secondary text-xs font-medium text-primary">
+                        <AvatarFallback className="flex h-full items-center justify-center rounded-full bg-secondary text-xs font-medium text-primary">
                           {nameInitials(user)}
                         </AvatarFallback>
                       </Avatar>
@@ -169,7 +169,7 @@ const MembersTabContent = ({ workspaceMembers, currentUser }: any) => {
                           </span>
 
                           {isCurrentUser && (
-                            <span className="rounded-md border border-brand/60 bg-brand/5  px-1.5 py-0.5 text-[10px] font-medium text-brand">
+                            <span className="rounded-md border border-brand/25 bg-brand/5 px-1.5 py-0.5 text-[10px] font-medium text-brand">
                               You
                             </span>
                           )}
@@ -217,12 +217,12 @@ const MembersTabContent = ({ workspaceMembers, currentUser }: any) => {
                         className="
                           flex items-center gap-2
                           rounded-lg
-                          border border-default
-                          bg-secondary/30
+                          border border-border
+                          bg-secondary
                           px-3 py-2
                           text-xs font-medium
                           text-secondary
-                          opacity-60
+                          opacity-70
                           cursor-not-allowed
                         "
                       >
@@ -239,16 +239,16 @@ const MembersTabContent = ({ workspaceMembers, currentUser }: any) => {
                           group
                           flex items-center gap-2
                           rounded-lg
-                          border border-red-500/20
-                          bg-red-500/[0.04]
+                          border border-destructive/25
+                          bg-destructive/5
                           px-3 py-2
                           text-xs font-medium
-                          text-red-400
+                          text-destructive
                           transition-colors duration-150
-                          hover:border-red-500/30
-                          hover:bg-red-500/[0.08]
-                          hover:text-red-300
+                          hover:border-destructive/40
+                          hover:bg-destructive/10
                           cursor-pointer
+                          focus-ring
                         "
                       >
                         <UserMinus
@@ -266,7 +266,7 @@ const MembersTabContent = ({ workspaceMembers, currentUser }: any) => {
         </table>
       </div>
 
-      <div className="border-t border-default" />
+      <div className="border-t border-border" />
 
       <div className="max-w-2xl">
         <div>
@@ -274,7 +274,7 @@ const MembersTabContent = ({ workspaceMembers, currentUser }: any) => {
             Members deletion settings
           </h3>
 
-          <p className="mt-2 text-sm leading-6 text-secondary">
+          <p className="mt-2 text-sm leading-relaxed text-secondary">
             Once you delete a member, they lose all access immediately.
           </p>
         </div>

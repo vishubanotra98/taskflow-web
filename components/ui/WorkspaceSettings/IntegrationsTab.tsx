@@ -119,7 +119,7 @@ export const IntegrationTab = () => {
           <h2 className="text-base font-semibold text-primary">Integrations</h2>
         </div>
 
-        <p className="mt-1.5 max-w-2xl text-sm leading-6 text-secondary">
+        <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-secondary">
           Connect Subtend with the tools your team already uses.
         </p>
       </section>
@@ -130,7 +130,7 @@ export const IntegrationTab = () => {
             Available integrations
           </h3>
 
-          <p className="mt-1 text-xs text-secondary">
+          <p className="mt-1 text-xs leading-5 text-secondary">
             Extend your workspace with external tools and services.
           </p>
         </div>
@@ -142,13 +142,13 @@ export const IntegrationTab = () => {
             return (
               <div
                 key={integration.id}
-                className="group relative overflow-hidden rounded-xl border border-default bg-card p-5 shadow-card transition-all duration-200 hover:border-brand/30"
+                className="group relative overflow-hidden rounded-xl border border-border bg-card p-5 shadow-card transition-colors duration-200 hover:border-brand/40"
               >
-                <div className="absolute left-0 top-0 h-px w-0 bg-brand transition-all duration-200 group-hover:w-full" />
+                <div className="absolute left-0 top-0 h-px w-0 bg-brand transition-[width] duration-200 group-hover:w-full" />
 
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex min-w-0 gap-3.5">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-default bg-secondary/40">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
                       <Icon
                         size={19}
                         strokeWidth={1.8}
@@ -169,7 +169,7 @@ export const IntegrationTab = () => {
                           />
                         ) : (
                           integration.connected && (
-                            <span className="inline-flex items-center gap-1 rounded-md border border-brand/20 bg-brand/5 px-1.5 py-0.5 text-[10px] font-medium text-brand">
+                            <span className="inline-flex items-center gap-1 rounded-md border border-brand/25 bg-brand/5 px-1.5 py-0.5 text-[10px] font-medium text-brand">
                               <Check size={10} />
                               Connected
                             </span>
@@ -188,7 +188,7 @@ export const IntegrationTab = () => {
                       type="button"
                       onClick={() => handleConnect(integration)}
                       disabled={integration?.connected}
-                      className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-default bg-card px-3 py-1.5 text-xs font-medium text-primary transition-all duration-150 hover:border-brand hover:bg-accent hover:text-brand active:scale-[0.98]"
+                      className="focus-ring inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium text-primary transition-colors duration-150 hover:border-brand hover:bg-accent hover:text-brand active:scale-[0.98]"
                     >
                       Connect
                       <ArrowUpRight
@@ -204,7 +204,7 @@ export const IntegrationTab = () => {
         </div>
       </section>
 
-      <div className="border-t border-default pt-6">
+      <div className="border-t border-border pt-6">
         <div className="flex max-w-2xl gap-3">
           <div className="mt-2 size-1.5 shrink-0 rounded-full bg-secondary" />
 

@@ -142,20 +142,20 @@ const TeamsProjectsTabContent = ({ projects, teams, fetchData }: any) => {
           />
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-default bg-card shadow-card">
+        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
           {teams?.teamData?.length === 0 ? (
             <div className="flex min-h-28 items-center justify-center px-6 text-sm text-secondary">
               No teams found in this workspace.
             </div>
           ) : (
-            <ul className="divide-y divide-default">
+            <ul className="divide-y divide-border">
               {teams?.teamData?.map((team: any) => (
                 <li
                   key={team?.id}
-                  className=" group flex items-center justify-between gap-6 px-5 py-4 transition-colors duration-150 hover:bg-secondary/5"
+                  className="group flex items-center justify-between gap-6 px-5 py-4 transition-colors duration-150 hover:bg-accent"
                 >
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-default bg-secondary/40">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
                       <Users size={15} className="text-secondary" />
                     </div>
 
@@ -173,9 +173,8 @@ const TeamsProjectsTabContent = ({ projects, teams, fetchData }: any) => {
 
                   <button
                     onClick={() => deleteModalhandler(team?.id)}
-
                     type="button"
-                    className=" group/delete inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-1.5 text-xs font-medium text-destructive transition-all duration-150 hover:bg-destructive/10 hover:border-destructive/30 active:scale-[0.98] cursor-pointer"
+                    className="focus-ring group/delete inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-destructive/25 bg-destructive/5 px-3 py-1.5 text-xs font-medium text-destructive transition-colors duration-150 hover:border-destructive/40 hover:bg-destructive/10 active:scale-[0.98] cursor-pointer"
                   >
                     <Trash2
                       size={13}
@@ -237,20 +236,20 @@ const TeamsProjectsTabContent = ({ projects, teams, fetchData }: any) => {
           />
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-default bg-card shadow-card">
+        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
           {projects?.length === 0 ? (
             <div className="flex min-h-28 items-center justify-center px-6 text-sm text-secondary">
               No projects found in this workspace.
             </div>
           ) : (
-            <ul className="divide-y divide-default">
+            <ul className="divide-y divide-border">
               {projects?.map((project: any) => (
                 <li
                   key={project?.id}
-                  className="group flex items-center justify-between gap-6 px-5 py-4 transition-colors duration-150 hover:bg-secondary/5"
+                  className="group flex items-center justify-between gap-6 px-5 py-4 transition-colors duration-150 hover:bg-accent"
                 >
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-default bg-secondary/40">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
                       <FolderGit2 size={15} className="text-secondary" />
                     </div>
 
@@ -263,8 +262,8 @@ const TeamsProjectsTabContent = ({ projects, teams, fetchData }: any) => {
                         <span
                           className={`h-1.5 w-1.5 rounded-full ${
                             project?.deletedAt === null
-                              ? "bg-green-300"
-                              : "bg-gray-500"
+                              ? "bg-brand"
+                              : "bg-secondary"
                           }`}
                         />
 
@@ -281,8 +280,7 @@ const TeamsProjectsTabContent = ({ projects, teams, fetchData }: any) => {
                       setProjectDeleteMoal(true);
                     }}
                     type="button"
-                    className=" group/delete inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-1.5 text-xs font-medium text-destructive transition-all duration-150 hover:bg-destructive/10 hover:border-destructive/30 active:scale-[0.98] cursor-pointer
-                    "
+                    className="focus-ring group/delete inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-destructive/25 bg-destructive/5 px-3 py-1.5 text-xs font-medium text-destructive transition-colors duration-150 hover:border-destructive/40 hover:bg-destructive/10 active:scale-[0.98] cursor-pointer"
                   >
                     <Trash2
                       size={13}
@@ -297,7 +295,7 @@ const TeamsProjectsTabContent = ({ projects, teams, fetchData }: any) => {
         </div>
       </section>
 
-      <div className="border-t border-default pt-6">
+      <div className="border-t border-border pt-6">
         <div className="flex max-w-2xl gap-3">
           <div className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
 

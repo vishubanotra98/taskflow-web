@@ -95,18 +95,20 @@ const WorkspaceSettings = () => {
   }
 
   return (
-    <div className="flex h-[100vh] min-h-full w-full overflow-hidden bg-background">
-      <aside className="flex h-full min-h-full w-56 shrink-0 flex-col border-r border-default bg-secondary/5">
+    <div className="flex h-[100vh] min-h-full w-full overflow-hidden bg-background text-primary">
+      <aside className="flex h-full min-h-full w-56 shrink-0 flex-col border-r border-border bg-card">
         <div className="px-3 py-6">
           <div className="mb-6 px-3">
             <h2 className="text-sm font-semibold text-primary">
               Workspace settings
             </h2>
 
-            <p className="mt-1 text-xs text-secondary">Manage your workspace</p>
+            <p className="mt-1 text-xs leading-5 text-secondary">
+              Manage your workspace
+            </p>
           </div>
 
-          <nav className=" space-y-1">
+          <nav className="space-y-1">
             {options.map((tab) => {
               const isActive = option === tab.value;
 
@@ -115,7 +117,11 @@ const WorkspaceSettings = () => {
                   key={tab.value}
                   type="button"
                   onClick={() => setOption(tab.value)}
-                  className={`flex w-full items-center rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors duration-150 cursor-pointer ${isActive ? "bg-brand/20 text-primary" : "text-secondary hover:bg-brand/60 hover:text-primary"}`}
+                  className={` flex w-full items-center rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors duration-150 cursor-pointer ${
+                    isActive
+                      ? "bg-accent/80 text-primary"
+                      : "text-secondary hover:bg-accent hover:text-primary"
+                  }`}
                 >
                   {tab.label}
                 </button>

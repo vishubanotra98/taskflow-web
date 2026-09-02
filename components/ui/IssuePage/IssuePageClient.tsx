@@ -24,6 +24,7 @@ import { useAppDispatch } from "@/Store/hooks";
 
 import {
   editIssueAction,
+  fetchGithubHistoryAction,
   fetchIssuesByProjectAction,
   fetchWorkspaceMambersAction,
   fetchWorkspaceStatusAction,
@@ -46,6 +47,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../popover";
 import { Calendar } from "../calendar";
 import { format } from "date-fns";
 import { Textarea } from "../textarea";
+import IssueGithubHistory from "./GithubHistory";
 
 type SaveState = "idle" | "saving" | "saved" | "error";
 
@@ -63,7 +65,7 @@ const SaveIndicator = ({ state }: { state: SaveState }) => {
     return (
       <div className="flex items-center gap-1.5 text-xs text-destructive">
         <AlertCircle size={12} />
-        <span>Couldn't save</span>
+        <span>Couldn&apos;t save</span>
       </div>
     );
   }
@@ -104,6 +106,7 @@ export const IssuePageClient = () => {
   });
   const [members, setMembers] = useState<any>(null);
   const [statusList, setStatusList] = useState<any>(null);
+  const [githubHistory, setGithubHistory] = useState<any>([]);
   const [isLoadingIssue, setIsLoadingIssue] = useState(true);
   const [open, setOpen] = useState(false);
   const [dateOpen, setDateOpen] = useState(false);
@@ -135,9 +138,14 @@ export const IssuePageClient = () => {
       try {
         setIsLoadingIssue(true);
 
-        const [issuesRes, workspaceStatusRes, membersRes] = await Promise.all([
+        const [
+          issuesRes,
+          githubHistoryRes,
+          workspaceStatusRes,
+          membersRes,
+        ]: any = await Promise.all([
           dispatch(fetchIssuesByProjectAction({ projectId })).unwrap(),
-
+          dispatch(fetchGithubHistoryAction(issueId)).unwrap(),
           dispatch(
             fetchWorkspaceStatusAction({
               workspaceId,
@@ -151,6 +159,7 @@ export const IssuePageClient = () => {
         const issuesData = issuesRes?.data?.issues ?? [];
         const membersList = membersRes?.data?.members ?? [];
         const statusRes = workspaceStatusRes?.data?.status ?? [];
+        const githubHistory = githubHistoryRes?.data?.histories ?? [];
 
         const selectedIssue =
           issuesData?.find((issue: any) => issue?.id === issueId) ?? null;
@@ -178,6 +187,7 @@ export const IssuePageClient = () => {
 
         setMembers(membersData);
         setStatusList(statusRes);
+        setGithubHistory(githubHistory);
       } catch (error) {
         console.error("Failed to load issue:", error);
       } finally {
@@ -256,31 +266,28 @@ export const IssuePageClient = () => {
   }
 
   return (
-    <div className="min-h-screen w-full bg-background">
-      <header className="sticky top-0 z-20 border-b border-default bg-background/95 backdrop-blur">
-        <div className="flex h-14 items-center justify-between px-6 lg:px-8">
+    <div className="min-h-screen w-full bg-background text-primary">
+      <header className="sticky top-0 z-20 border-b border-border bg-background/90 backdrop-blur-md">
+        <div className="mx-auto flex h-14 w-full max-w-[1280px] items-center justify-between px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <Button
-              variant={"soft"}
-              className="flex items-center justify-center gap-1.5 py-1"
+              variant="soft"
+              size="sm"
+              className="group gap-1.5 px-2.5 font-medium"
               onClick={handleBack}
             >
               <ArrowLeft
-                size={15}
+                size={14}
                 strokeWidth={1.8}
-                className="
-                  transition-transform
-                  duration-150
-                  group-hover:-translate-x-0.5
-                "
+                className="transition-transform duration-150 group-hover:-translate-x-0.5"
               />
               Back
             </Button>
 
-            <span className="hidden text-secondary/30 sm:block">/</span>
+            <span className="hidden text-secondary/60 sm:block">/</span>
 
             <span className="hidden truncate text-xs font-medium text-secondary sm:block">
-              {issueState?.ticket_num ? issueState?.ticket_num : "Issue"}
+              {issueState?.ticket_num ? `${issueState.ticket_num}` : "Issue"}
             </span>
 
             <SaveIndicator state={saveState} />
@@ -289,19 +296,19 @@ export const IssuePageClient = () => {
       </header>
 
       <main className="w-full">
-        <div className="mx-auto grid w-full max-w-[1280px] grid-cols-1 gap-10 px-6 py-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14 lg:px-8 lg:py-10">
+        <div className="mx-auto grid w-full max-w-[1280px] grid-cols-1 gap-12 px-6 py-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-16 lg:px-8 lg:py-12">
           <section className="min-w-0">
-            <div className="mb-4 flex items-center gap-2">
-              <span className="text-xs font-medium uppercase tracking-wide text-secondary">
+            <div className="mb-3 flex items-center gap-2">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-secondary">
                 Issue
               </span>
 
               {issueState?.ticket_num && (
                 <>
-                  <span className="text-xs text-secondary/30">•</span>
+                  <span className="text-secondary/60">·</span>
 
-                  <span className="text-xs font-medium text-secondary">
-                    {issueState.ticket_num}
+                  <span className="text-[11px] font-medium tabular-nums text-secondary">
+                    #{issueState.ticket_num}
                   </span>
                 </>
               )}
@@ -321,23 +328,21 @@ export const IssuePageClient = () => {
               autoFocus
               placeholder="Give this issue a title..."
               aria-label="Issue title"
-              className="block min-h-[52px] w-full resize-none overflow-hidden rounded-lg border border-transparent bg-transparent px-2 py-1 text-3xl font-semibold leading-tight tracking-tight text-primary outline-none transition-all duration-150 hover:border-default hover:bg-card/40 focus:border-default focus:bg-card"
+              className="block min-h-[56px] w-full resize-none overflow-hidden rounded-lg border border-transparent bg-transparent px-2 py-1 text-[32px] font-semibold leading-[1.2] tracking-[-0.025em] text-primary outline-none transition-all duration-150 placeholder:text-secondary/60 hover:border-default hover:bg-card/30 focus:border-default focus:bg-card/50"
             />
 
-            <div className="mt-10">
-              <div className="mb-3 flex items-center justify-between">
-                <div>
-                  <h2 className="text-xs font-semibold uppercase tracking-wide text-secondary">
-                    Description
-                  </h2>
+            <div className="mt-12">
+              <div className="mb-4">
+                <h2 className="text-sm font-semibold text-primary">
+                  Description
+                </h2>
 
-                  <p className="mt-1 text-xs text-secondary/60">
-                    Add context, requirements, or notes for your team.
-                  </p>
-                </div>
+                <p className="mt-1 text-xs leading-5 text-secondary">
+                  Add context, requirements, or notes for your team.
+                </p>
               </div>
 
-              <div className="min-h-[320px] rounded-xl border border-default bg-card/40 px-5 py-4 transition-all duration-150 hover:bg-card/60 focus-within:border-brand/60 focus-within:bg-card focus-within:ring-2 focus-within:ring-brand/10">
+              <div className="min-h-[320px] rounded-xl border border-default bg-card/50 px-5 py-4 transition-all duration-150 hover:bg-card/50 focus-within:border-brand/40 focus-within:bg-card/60 focus-within:ring-2 focus-within:ring-brand/10">
                 <DescriptionEditor
                   state={issueState}
                   setState={setIssueState}
@@ -345,25 +350,31 @@ export const IssuePageClient = () => {
                 />
               </div>
             </div>
+
+            <IssueGithubHistory histories={githubHistory} />
           </section>
 
           <aside className="min-w-0">
             <div className="sticky top-[78px]">
-              <div className=" overflow-hidden rounded-xl border border-default bg-card/60 shadow-md">
-                <div className="border-b border-default px-5 py-4">
+              <div className="overflow-hidden rounded-xl border border-default bg-card/40">
+                <div className="border-b border-default bg-card/60 px-4 py-4">
                   <h2 className="text-sm font-semibold text-primary">
                     Details
                   </h2>
 
-                  <p className="mt-1 text-xs text-secondary">
+                  <p className="mt-1 text-xs leading-5 text-secondary">
                     Manage issue properties
                   </p>
                 </div>
 
-                <div className="space-y-5 p-5">
-                  <div>
-                    <label className="mb-2 flex items-center gap-2 text-xs font-medium text-secondary">
-                      <UserRound size={13} strokeWidth={1.8} />
+                <div className="divide-y divide-default">
+                  <div className="px-4 py-4">
+                    <label className="mb-2.5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.06em] text-secondary">
+                      <UserRound
+                        size={13}
+                        strokeWidth={1.8}
+                        className="text-secondary"
+                      />
                       Assignee
                     </label>
 
@@ -393,9 +404,13 @@ export const IssuePageClient = () => {
                     />
                   </div>
 
-                  <div>
-                    <label className="mb-2 flex items-center gap-2 text-xs font-medium text-secondary">
-                      <CircleDot size={13} strokeWidth={1.8} />
+                  <div className="px-4 py-4">
+                    <label className="mb-2.5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.06em] text-secondary">
+                      <CircleDot
+                        size={13}
+                        strokeWidth={1.8}
+                        className="text-secondary"
+                      />
                       Status
                     </label>
 
@@ -426,9 +441,13 @@ export const IssuePageClient = () => {
                     />
                   </div>
 
-                  <div>
-                    <label className="mb-2 flex items-center gap-2 text-xs font-medium text-secondary">
-                      <Flag size={13} strokeWidth={1.8} />
+                  <div className="px-4 py-4">
+                    <label className="mb-2.5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.06em] text-secondary">
+                      <Flag
+                        size={13}
+                        strokeWidth={1.8}
+                        className="text-secondary"
+                      />
                       Priority
                     </label>
 
@@ -459,22 +478,29 @@ export const IssuePageClient = () => {
                     />
                   </div>
 
-                  <div className="space-y-1.5">
-                    <label className="mb-2 flex items-center gap-2 text-xs font-medium text-secondary">
-                      <CalendarCheck2 size={13} strokeWidth={1.8} />
-                      Target Date
+                  <div className="px-4 py-4">
+                    <label className="mb-2.5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.06em] text-secondary">
+                      <CalendarCheck2
+                        size={13}
+                        strokeWidth={1.8}
+                        className="text-secondary"
+                      />
+                      Target date
                     </label>
+
                     <Popover open={dateOpen} onOpenChange={setDateOpen}>
                       <PopoverTrigger asChild>
                         <Button
                           type="button"
                           variant="secondary"
-                          className="h-12 w-full justify-start font-normal"
+                          className="h-10 w-full justify-start rounded-lg border border-default bg-background/50 px-3 text-sm font-normal hover:bg-accent"
                         >
                           <CalendarIcon className="mr-2 h-4 w-4 text-secondary" />
 
                           {targetDate ? (
-                            <span>{format(targetDate, "dd MMM yyyy")}</span>
+                            <span className="text-primary">
+                              {format(targetDate, "dd MMM yyyy")}
+                            </span>
                           ) : (
                             <span className="text-secondary">
                               No target date
@@ -485,7 +511,7 @@ export const IssuePageClient = () => {
 
                       <PopoverContent
                         align="start"
-                        className="w-auto rounded-lg border border-default bg-card p-3 shadow-card"
+                        className="w-auto rounded-xl border border-default bg-popover p-3 bg-card shadow-card"
                       >
                         <Calendar
                           mode="single"
@@ -512,6 +538,7 @@ export const IssuePageClient = () => {
                                 ...prev,
                                 targetDate: undefined,
                               }));
+
                               setDateOpen(false);
                             }}
                           >
@@ -522,21 +549,10 @@ export const IssuePageClient = () => {
                     </Popover>
                   </div>
 
-                  <div className="space-y-1.5">
-                    <Button
-                      className="w-full flex justify-center items-center gap-1 font-semibold py-1"
-                      variant={"delete"}
-                      onClick={() => setOpen(true)}
-                    >
-                      <Trash2 size={13} strokeWidth={3} />
-                      Delete
-                    </Button>
-                  </div>
-
                   {isBlocked && (
-                    <div className="border-t border-default pt-5">
-                      <div className="mb-2">
-                        <label className="flex items-center gap-2 text-xs font-medium text-secondary">
+                    <div className="px-4 py-4">
+                      <div className="mb-3">
+                        <label className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.06em] text-secondary">
                           <AlertCircle
                             size={13}
                             strokeWidth={1.8}
@@ -545,7 +561,7 @@ export const IssuePageClient = () => {
                           Blocked reason
                         </label>
 
-                        <p className="mt-1 text-[11px] leading-4 text-secondary/60">
+                        <p className="mt-1.5 text-[11px] leading-4 text-secondary">
                           Explain what is preventing this issue from moving
                           forward.
                         </p>
@@ -562,21 +578,31 @@ export const IssuePageClient = () => {
                         rows={5}
                         placeholder="e.g. Waiting for API credentials from the client..."
                         aria-label="Blocked reason"
+                        className="resize-none rounded-lg border-border bg-background/40 text-sm placeholder:text-secondary/60 focus:border-warning/50 focus:ring-warning/10"
                       />
 
-                      <p className="mt-1.5 text-[11px] text-secondary/60">
-                        This will help your team understand the blocker from the
-                        dashboard.
+                      <p className="mt-1.5 text-[11px] leading-4 text-secondary">
+                        This helps your team understand the blocker.
                       </p>
                     </div>
                   )}
+
+                  <div className="px-4 py-4">
+                    <Button
+                      className="h-9 w-full justify-center gap-1.5 rounded-lg text-xs font-medium"
+                      variant="delete"
+                      onClick={() => setOpen(true)}
+                    >
+                      <Trash2 size={13} strokeWidth={2} />
+                      Move to trash
+                    </Button>
+                  </div>
                 </div>
               </div>
 
-              <div className="mt-4 px-1">
-                <p className="text-[11px] leading-4 text-secondary/60">
-                  Changes are saved automatically. You don't need to manually
-                  save this issue.
+              <div className="mt-3 px-1">
+                <p className="text-[11px] leading-4 text-secondary">
+                  Changes are saved automatically.
                 </p>
               </div>
             </div>

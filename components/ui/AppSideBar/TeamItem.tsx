@@ -70,13 +70,13 @@ function TeamItem({ team, params, isAdmin }: TeamItemProps) {
         <CollapsibleTrigger asChild>
           <button
             type="button"
-            className={`flex h-9 w-full items-center gap-2 rounded-lg px-2 text-sm transition-colors duration-150 ${containsActiveProject ? "text-primary" : "text-secondary hover:bg-accent hover:text-primary"}`}
+            className={`flex h-9 w-full items-center gap-2 rounded-lg px-2 text-sm transition-colors duration-150 cursor-pointer ${containsActiveProject ? "bg-accent text-primary" : "text-secondary hover:bg-accent hover:text-primary"}`}
           >
             <ChevronRight
               className={`size-3.5 shrink-0 transition-transform duration-200 ${containsActiveProject ? "text-brand" : "text-secondary"} ${isOpen ? "rotate-90" : ""}`}
             />
             <Users
-              className={`size-3.5 shrink-0  ${containsActiveProject ? "text-brand" : "text-secondary"}`}
+              className={`size-3.5 shrink-0 ${containsActiveProject ? "text-brand" : "text-secondary"}`}
             />
             <span
               className={`min-w-0 flex-1 truncate text-left ${containsActiveProject ? "font-medium text-primary" : "font-medium"}`}
@@ -85,7 +85,7 @@ function TeamItem({ team, params, isAdmin }: TeamItemProps) {
             </span>
 
             {projects.length > 0 && (
-              <span className="flex min-w-5 items-center justify-center rounded-md px-1.5 py-0.5 text-[10px] tabular-nums text-secondary">
+              <span className="flex min-w-5 items-center justify-center rounded-md border border-border bg-secondary px-1.5 py-0.5 text-[10px] tabular-nums text-secondary">
                 {projects.length}
               </span>
             )}
@@ -97,7 +97,7 @@ function TeamItem({ team, params, isAdmin }: TeamItemProps) {
             <div className="absolute bottom-2 left-0 top-1 w-px bg-border" />
 
             <div className="space-y-0.5">
-              {projects.length > 0 ? (
+              {projects?.length > 0 ? (
                 projects.map((project: ProjectItem) => {
                   const active = project.id === activeProjectId;
 
@@ -105,9 +105,9 @@ function TeamItem({ team, params, isAdmin }: TeamItemProps) {
                     <Link
                       key={project.id}
                       href={`/${params?.workspaceId}/team/${team.id}/project/${project.id}`}
-                      className={`group/project relative flex h-8 items-center gap-2 rounded-md  px-2 text-[13px] transition-colors duration-150 ${active ? "bg-accent font-medium text-primary" : "text-secondary hover:bg-accent hover:text-primary"}`}
+                      className={`group/project relative flex h-8 items-center gap-2 rounded-md px-2 mt-1 text-[13px] transition-colors duration-150  ${active ? "bg-accent font-medium text-primary" : "text-secondary hover:bg-accent hover:text-primary"}`}
                     >
-                      <span className="absolute -left-[18px] top-1/2  h-px w-[10px]bg-border" />
+                      <span className="absolute -left-[18px] top-1/2 h-px w-[10px] bg-border" />
 
                       <FolderKanban
                         className={`size-3.5 shrink-0 transition-colors ${active ? "text-brand" : "text-secondary group-hover/project:text-primary"}`}
@@ -135,7 +135,7 @@ function TeamItem({ team, params, isAdmin }: TeamItemProps) {
                   }
                   buttonVariant="ghost"
                   buttonSize="sm"
-                  buttonClassName="mt-1.5 h-8 w-full justify-start gap-2 px-2 text-xs font-normal hover:bg-accent hover:text-primary"
+                  buttonClassName="mt-1 h-8 w-full justify-start gap-2 px-2 text-xs font-normal hover:bg-accent hover:text-primary "
                   buttonInnerText={<ProjectButton />}
                   subHeading="Organize work, track progress and collaborate."
                 />

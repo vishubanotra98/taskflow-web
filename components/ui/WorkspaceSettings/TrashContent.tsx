@@ -167,7 +167,7 @@ export default function TrashContentTab({
           </p>
         </div>
 
-        <div className="flex items-start gap-3 rounded-card border border-default bg-secondary/40 px-4 py-3.5">
+        <div className="flex items-start gap-3 rounded-card border border-border bg-secondary px-4 py-3.5">
           <ShieldAlert size={17} className="mt-0.5 shrink-0 text-secondary" />
 
           <div>
@@ -183,8 +183,8 @@ export default function TrashContentTab({
         </div>
 
         {isEmpty && (
-          <div className="flex min-h-[300px] flex-col items-center justify-center rounded-card border border-default bg-card px-6 text-center shadow-card">
-            <div className="flex size-11 items-center justify-center rounded-xl bg-secondary">
+          <div className="flex min-h-[300px] flex-col items-center justify-center rounded-card border border-border bg-card px-6 text-center shadow-card">
+            <div className="flex size-11 items-center justify-center rounded-lg bg-secondary">
               <Archive size={20} className="text-secondary" />
             </div>
 
@@ -206,7 +206,7 @@ export default function TrashContentTab({
             icon={<FolderKanban size={17} />}
             count={deletedProjects?.length}
           >
-            <div className="overflow-hidden rounded-card border border-default bg-card shadow-card">
+            <div className="overflow-hidden rounded-card border border-border bg-card shadow-card">
               {deletedProjects?.map((project: any, index: any) => {
                 return (
                   <TrashItem
@@ -244,7 +244,7 @@ export default function TrashContentTab({
             icon={<Users size={17} />}
             count={deletedTeams?.length}
           >
-            <div className="overflow-hidden rounded-card border border-default bg-card shadow-card">
+            <div className="overflow-hidden rounded-card border border-border bg-card shadow-card">
               {deletedTeams.map((team: any, index: any) => (
                 <TrashItem
                   key={team.id}
@@ -267,8 +267,8 @@ export default function TrashContentTab({
         )}
 
         {!isEmpty && (
-          <div className="border-t border-default pt-5">
-            <p className="max-w-2xl text-xs leading-relaxed text-secondary">
+          <div className="border-t border-border pt-5">
+            <p className="max-w-2xl text-sm leading-relaxed text-secondary">
               <span className="font-medium text-primary">
                 Permanent deletion
               </span>{" "}
@@ -323,7 +323,7 @@ function TrashSection({
 
             <h3 className="text-sm font-semibold">{title}</h3>
 
-            <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium text-secondary">
+            <span className="rounded-md border border-border bg-secondary px-2 py-0.5 text-[11px] font-medium text-secondary">
               {count}
             </span>
           </div>
@@ -354,12 +354,12 @@ function TrashItem({
 }) {
   return (
     <div
-      className={`group flex min-h-[72px] items-center justify-between gap-6 px-5 py-4 transition-fast hover:bg-secondary/5 ${
-        !isLast ? "border-b border-default" : ""
+      className={`group flex min-h-[72px] items-center justify-between gap-6 px-5 py-4 transition-fast hover:bg-accent ${
+        !isLast ? "border-b border-border" : ""
       }`}
     >
       <div className="flex min-w-0 items-center gap-3">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-secondary">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
           <FolderKanban size={16} className="text-secondary" />
         </div>
 
@@ -373,6 +373,7 @@ function TrashItem({
       <div className="flex shrink-0 items-center gap-2">
         <Button
           variant={"soft"}
+          size="sm"
           iconAnimation="flip"
           onClick={onRestore}
           disabled={load}
@@ -385,7 +386,8 @@ function TrashItem({
           type="button"
           onClick={onDelete}
           variant={"delete"}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5"
+          size="sm"
+          className="inline-flex items-center gap-1.5 px-3"
         >
           <Trash2 size={13} />
           Delete Permanently

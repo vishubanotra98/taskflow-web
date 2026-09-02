@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { ErrorToast } from "@/components/ui/Toast/ErrorToast";
 import {
   fetchGithubReposAction,
@@ -7,13 +8,21 @@ import {
   selectRepoAction,
 } from "@/Store/actions/workspace.action";
 import { useAppDispatch } from "@/Store/hooks";
-import { Github, GitBranch, ExternalLink, Settings2, Plus } from "lucide-react";
-import { useParams } from "next/navigation";
+import {
+  Github,
+  GitBranch,
+  ExternalLink,
+  Settings2,
+  Plus,
+  ArrowLeft,
+} from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function ProjectSettingsPage() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const params = useParams<{
     workspaceId: string;
@@ -23,6 +32,7 @@ export default function ProjectSettingsPage() {
 
   const workspaceId = params.workspaceId;
   const projectId = params.projectId;
+  const teamId = params.teamId;
 
   const [showRepositories, setShowRepositories] = useState(false);
   const [githubRepos, setGithubRepos] = useState<any[]>([]);
@@ -168,14 +178,33 @@ export default function ProjectSettingsPage() {
     <main className="min-h-full bg-background">
       <div className="mx-auto w-full max-w-5xl px-8 py-8">
         <div className="mb-8">
-          <div className="flex items-center gap-2">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-accent">
-              <Settings2 size={16} className="text-brand" />
-            </div>
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <div className="flex size-8 items-center justify-center rounded-lg bg-accent">
+                <Settings2 size={16} className="text-brand" />
+              </div>
 
-            <h1 className="text-base font-semibold text-primary">
-              Project settings
-            </h1>
+              <h1 className="text-base font-semibold text-primary">
+                Project settings
+              </h1>
+            </div>
+            <Button
+              variant="soft"
+              size="sm"
+              className="group gap-1.5 px-2.5 font-medium"
+              onClick={() =>
+                router.push(
+                  `/${workspaceId}/team/${teamId}/project/${projectId}`,
+                )
+              }
+            >
+              <ArrowLeft
+                size={14}
+                strokeWidth={1.8}
+                className="transition-transform duration-150 group-hover:-translate-x-0.5"
+              />
+              Back
+            </Button>
           </div>
 
           <p className="mt-1.5 text-sm text-secondary">
@@ -371,46 +400,6 @@ export default function ProjectSettingsPage() {
             </div>
           )}
         </section>
-
-        {/* {repository && (
-          <>
-            <div className="my-8 border-t border-default" />
-
-            <section className="space-y-4">
-              <div>
-                <h2 className="text-sm font-semibold text-primary">
-                  Issue automation
-                </h2>
-
-                <p className="mt-1 text-sm text-secondary">
-                  Configure how GitHub activity should update issues in this
-                  project.
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-default bg-card">
-                <div className="flex items-center justify-between px-5 py-5">
-                  <div>
-                    <p className="text-sm font-medium text-primary">
-                      GitHub rules
-                    </p>
-
-                    <p className="mt-1 text-xs text-secondary">
-                      Automatically update issues based on GitHub activity.
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-default bg-card px-3 py-2 text-xs font-medium text-primary transition-fast hover:border-brand hover:bg-accent hover:text-brand"
-                  >
-                    Configure
-                  </button>
-                </div>
-              </div>
-            </section>
-          </>
-        )} */}
       </div>
     </main>
   );

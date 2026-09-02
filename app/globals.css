@@ -11,16 +11,18 @@
   --color-brand: var(--primary);
   --color-brand-hover: var(--primary-hover);
   --color-brand-active: var(--primary-active);
+
   --color-primary: var(--foreground);
   --color-secondary: var(--muted-foreground);
   --color-background: var(--background);
 
-  /* --color-border: var(--border); */
+  --color-border: var(--border);
   --color-accent: var(--accent);
 
   --color-button-border: var(--border);
   --color-button-hover: var(--card);
   --color-button-text: var(--foreground);
+
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-destructive: var(--destructive);
@@ -62,8 +64,8 @@
   --accent-foreground: #0f766e;
 
   /* Borders */
-  --border: #e5e7eb;
-  --input: #e5e7eb;
+  --border: #d9dce1;
+  --input: #d9dce1;
 
   /* Status */
   --destructive: #dc2626;

@@ -132,7 +132,7 @@ export function AppSidebar({ workspaceId }: AppSidebarProps) {
                   body={<AddTeamForm setModal={setTeamModal} />}
                   buttonVariant="ghost"
                   buttonSize="icon"
-                  buttonClassName="size-7 hover:bg-accent hover:text-primary"
+                  buttonClassName="size-7 hover:bg-accent hover:text-primary "
                   buttonInnerText={<Plus className="size-3.5" />}
                   subHeading={
                     "Teams help organize people and projects within your workspace."
@@ -149,10 +149,10 @@ export function AppSidebar({ workspaceId }: AppSidebarProps) {
                 setOpen={() => setTeamModal((prev) => !prev)}
                 title="Add New Team"
                 body={<AddTeamForm setModal={setTeamModal} />}
-                buttonClassName="flex size-8 items-center justify-center rounded-lg transition-colors hover:bg-accent hover:text-primary"
+                buttonClassName="flex size-8 items-center justify-center rounded-lg transition-colors hover:bg-accent hover:text-primary "
                 buttonInnerText={<Plus className="size-4" />}
                 buttonSize="icon"
-                buttonVariant="default"
+                buttonVariant="ghost"
               />
             </div>
           )}
@@ -180,7 +180,7 @@ export function AppSidebar({ workspaceId }: AppSidebarProps) {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-default p-2">
+      <SidebarFooter className="border-t border-border p-2">
         {isAdmin && (
           <SidebarMenu>
             <SidebarMenuItem>
@@ -189,7 +189,7 @@ export function AppSidebar({ workspaceId }: AppSidebarProps) {
                 tooltip="Workspace settings"
                 isActive={isSettingsActive}
                 onClick={() => router.push(`/${workspaceId}/settings`)}
-                className={`h-9 rounded-lg transition-colors duration-150 ${isSettingsActive ? "bg-accent text-primary" : "text-secondary hover:bg-accent hover:text-primary"}`}
+                className={`h-9 rounded-lg transition-colors duration-150  ${isSettingsActive ? "bg-accent text-primary" : "text-secondary hover:bg-accent hover:text-primary"}`}
               >
                 <Settings2
                   className={`size-4 ${isSettingsActive ? "text-brand" : "text-secondary"}`}
@@ -206,7 +206,7 @@ export function AppSidebar({ workspaceId }: AppSidebarProps) {
             ${isCollapsed ? "justify-center p-1" : "gap-3 px-2 py-2"}
           `}
         >
-          <Avatar className="size-8 shrink-0 overflow-hidden rounded-full border border-default bg-accent">
+          <Avatar className="size-8 shrink-0 overflow-hidden rounded-full border border-border bg-accent">
             <AvatarImage src={user?.image} className="size-full object-cover" />
 
             <AvatarFallback className="flex size-full items-center justify-center text-xs font-medium text-primary">
@@ -240,7 +240,7 @@ export function AppSidebar({ workspaceId }: AppSidebarProps) {
                 disabled={loading}
                 title="Log out"
                 aria-label="Log out"
-                className="flex size-8 shrink-0 items-center justify-center rounded-md text-secondary transition-colors hover:bg-accent hover:text-primary disabled:pointer-events-none disabled:opacity-50"
+                className="focus-ring flex size-8 shrink-0 items-center justify-center rounded-md text-secondary transition-colors hover:bg-accent hover:text-primary disabled:pointer-events-none disabled:opacity-50"
               >
                 <LogOut className="size-4" />
               </button>
