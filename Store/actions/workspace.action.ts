@@ -9,6 +9,7 @@ import {
   fetchActivitiesService,
   fetchDeletedProjectsService,
   fetchDeletedTeamsService,
+  fetchGithubHistoryServie,
   fetchGithubRepoService,
   fetchIssuesByProjectService,
   fetchIssuesService,
@@ -412,6 +413,18 @@ export const selectRepoAction = createAsyncThunk<any, any>(
         ownerName,
       });
 
+      return res;
+    } catch (err: any) {
+      return rejectWithValue(err?.response?.data);
+    }
+  },
+);
+
+export const fetchGithubHistoryAction = createAsyncThunk<string, any>(
+  "fetchGithubHistory",
+  async (issueId, { rejectWithValue }) => {
+    try {
+      const res = await fetchGithubHistoryServie(issueId);
       return res;
     } catch (err: any) {
       return rejectWithValue(err?.response?.data);

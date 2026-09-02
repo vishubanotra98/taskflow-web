@@ -9,9 +9,9 @@ import {
 
 export function SidebarLoading() {
   return (
-    <Sidebar collapsible="icon" className="border-r border-default bg-card">
-      <SidebarHeader className="border-b border-default p-0">
-        <div className="flex h-14 items-center justify-between px-3">
+    <Sidebar collapsible="icon" className="border-r border-border bg-card">
+      <SidebarHeader className="border-b border-border p-0">
+        <div className="flex h-16 items-center justify-between px-3">
           <Skeleton className="size-9 rounded-lg" />
 
           <Skeleton className="size-8 rounded-lg" />
@@ -51,7 +51,7 @@ export function SidebarLoading() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-default p-2">
+      <SidebarFooter className="border-t border-border p-2">
         <div className="flex h-9 items-center gap-2 px-2">
           <Skeleton className="size-4 shrink-0 rounded-sm" />
           <Skeleton className="h-3.5 w-28 rounded" />

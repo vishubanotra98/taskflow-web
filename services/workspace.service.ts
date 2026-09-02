@@ -321,3 +321,15 @@ export const selectRepoService = async (
     throw error;
   }
 };
+
+export const fetchGithubHistoryServie = async (issueId: string) => {
+  try {
+    const res = await axiosClient.get(
+      `/api/v1/issue/${issueId}/github/history`,
+    );
+
+    return res?.data;
+  } catch (error) {
+    throw error;
+  }
+};

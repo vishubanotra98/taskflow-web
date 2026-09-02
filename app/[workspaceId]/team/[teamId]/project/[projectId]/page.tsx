@@ -280,7 +280,7 @@ export default function ProjectIssue() {
                 iconAnimation="spin-ccw"
                 onClick={() =>
                   router.push(
-                    `/${workspaceId}/team/${teamId}/project/${projectId}/settings`,
+                    `/${workspaceId}/team/${teamId}/project/${projectId}/project-settings`,
                   )
                 }
               >
