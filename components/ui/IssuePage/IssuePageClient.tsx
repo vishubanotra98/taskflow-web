@@ -6,6 +6,7 @@ import { commonSelectStyles2 } from "@/utils/styles";
 import {
   AlertCircle,
   ArrowLeft,
+  CalendarCheck2,
   CalendarIcon,
   Check,
   CircleDot,
@@ -39,7 +40,7 @@ import {
   StatusPlaceholder,
 } from "../Common";
 
-import { IssueType, Params } from "@/types/types";
+import { Params } from "@/types/types";
 import { Button } from "../button";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover";
 import { Calendar } from "../calendar";
@@ -260,8 +261,8 @@ export const IssuePageClient = () => {
         <div className="flex h-14 items-center justify-between px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <Button
-              variant={"secondary"}
-              className="flex items-center justify-center gap-2"
+              variant={"soft"}
+              className="flex items-center justify-center gap-1.5 py-1"
               onClick={handleBack}
             >
               <ArrowLeft
@@ -284,15 +285,6 @@ export const IssuePageClient = () => {
 
             <SaveIndicator state={saveState} />
           </div>
-
-          <Button variant={"delete"} onClick={() => setOpen(true)}>
-            <Trash2
-              size={13}
-              strokeWidth={1.8}
-              className="transition-transform duration-150 group-hover:scale-105"
-            />
-            Delete
-          </Button>
         </div>
       </header>
 
@@ -468,7 +460,8 @@ export const IssuePageClient = () => {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-primary">
+                    <label className="mb-2 flex items-center gap-2 text-xs font-medium text-secondary">
+                      <CalendarCheck2 size={13} strokeWidth={1.8} />
                       Target Date
                     </label>
                     <Popover open={dateOpen} onOpenChange={setDateOpen}>
@@ -527,6 +520,17 @@ export const IssuePageClient = () => {
                         </div>
                       </PopoverContent>
                     </Popover>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Button
+                      className="w-full flex justify-center items-center gap-1 font-semibold py-1"
+                      variant={"delete"}
+                      onClick={() => setOpen(true)}
+                    >
+                      <Trash2 size={13} strokeWidth={3} />
+                      Delete
+                    </Button>
                   </div>
 
                   {isBlocked && (
