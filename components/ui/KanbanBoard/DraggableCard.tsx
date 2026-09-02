@@ -1,7 +1,7 @@
 "use client";
 
 import { useDraggable } from "@dnd-kit/react";
-import { getTeamPrefix, priorityList } from "@/utils/constants";
+import { priorityList } from "@/utils/constants";
 
 const DraggableCard = ({ issueData }: any) => {
   const { issue } = issueData;
@@ -25,7 +25,7 @@ const DraggableCard = ({ issueData }: any) => {
       <div className="group  w-full cursor-grab rounded-xl border border-default bg-card p-4 shadow-sm transition-fast hover:border-brand hover:shadow-card active:cursor-grabbing">
         <div className="mb-3 flex items-start justify-between">
           <span className="font-mono text-[11px] text-secondary">
-            {getTeamPrefix(team, issue)}
+            {issue?.ticket_num}
           </span>
 
           <div className="flex -space-x-1">
