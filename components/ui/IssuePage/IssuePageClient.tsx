@@ -279,7 +279,7 @@ export const IssuePageClient = () => {
             <span className="hidden text-secondary/30 sm:block">/</span>
 
             <span className="hidden truncate text-xs font-medium text-secondary sm:block">
-              {issueState?.ticket_num ? `#${issueState.ticket_num}` : "Issue"}
+              {issueState?.ticket_num ? issueState?.ticket_num : "Issue"}
             </span>
 
             <SaveIndicator state={saveState} />
