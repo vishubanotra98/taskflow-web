@@ -73,7 +73,7 @@ export default function ActionRequiredItem({
         px-5
         py-4
         transition-normal
-        hover:bg-secondary/40
+        hover:bg-secondary/[0.06]
         ${!isLast ? "border-b border-default" : ""}
       `}
     >

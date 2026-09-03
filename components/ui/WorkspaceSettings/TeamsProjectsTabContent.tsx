@@ -152,7 +152,7 @@ const TeamsProjectsTabContent = ({ projects, teams, fetchData }: any) => {
               {teams?.teamData?.map((team: any) => (
                 <li
                   key={team?.id}
-                  className="group flex items-center justify-between gap-6 px-5 py-4 transition-colors duration-150 hover:bg-accent"
+                  className="group flex items-center justify-between gap-6 px-5 py-4 transition-colors duration-150 hover:bg-secondary/[0.06]"
                 >
                   <div className="flex min-w-0 items-center gap-3">
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
@@ -246,7 +246,7 @@ const TeamsProjectsTabContent = ({ projects, teams, fetchData }: any) => {
               {projects?.map((project: any) => (
                 <li
                   key={project?.id}
-                  className="group flex items-center justify-between gap-6 px-5 py-4 transition-colors duration-150 hover:bg-accent"
+                  className="group flex items-center justify-between gap-6 px-5 py-4 transition-colors duration-150 hover:bg-secondary/[0.06]"
                 >
                   <div className="flex min-w-0 items-center gap-3">
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
