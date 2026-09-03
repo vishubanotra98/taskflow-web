@@ -1,6 +1,7 @@
 "use client";
 
 import { useDraggable } from "@dnd-kit/react";
+
 import { priorityList } from "@/utils/constants";
 
 const DraggableCard = ({ issueData }: any) => {
@@ -18,11 +19,12 @@ const DraggableCard = ({ issueData }: any) => {
   const currentPriority = priorityList?.find(
     (p) => p.value === issue?.priority?.toUpperCase(),
   );
+
   const PriorityIcon = currentPriority?.icon;
 
   return (
     <div ref={ref} className="pt-2.5">
-      <div className="group  w-full cursor-grab rounded-xl border border-default bg-card p-4 shadow-sm transition-fast hover:border-brand hover:shadow-card active:cursor-grabbing">
+      <div className=" group w-full cursor-grab rounded-xl border border-default bg-card p-4 transition-fast active:cursor-grabbing card-hover active-card-hover">
         <div className="mb-3 flex items-start justify-between">
           <span className="font-mono text-[11px] text-secondary">
             {issue?.ticket_num}
@@ -37,7 +39,7 @@ const DraggableCard = ({ issueData }: any) => {
           </div>
         </div>
 
-        <h4 className="text-sm font-medium leading-6 text-primary">
+        <h4 className="text-sm font-medium leading-6 text-primary transition-fast">
           {issue?.title}
         </h4>
 

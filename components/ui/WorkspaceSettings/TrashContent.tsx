@@ -354,7 +354,7 @@ function TrashItem({
 }) {
   return (
     <div
-      className={`group flex min-h-[72px] items-center justify-between gap-6 px-5 py-4 transition-fast hover:bg-accent ${
+      className={`group flex min-h-[72px] items-center justify-between gap-6 px-5 py-4 transition-fast hover:bg-secondary/[0.06] ${
         !isLast ? "border-b border-border" : ""
       }`}
     >

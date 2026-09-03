@@ -147,7 +147,7 @@ const MembersTabContent = ({ workspaceMembers, currentUser }: any) => {
               return (
                 <tr
                   key={user?.id}
-                  className="transition-colors duration-150 hover:bg-accent"
+                  className="transition-colors duration-150 hover:bg-secondary/[0.06]"
                 >
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">

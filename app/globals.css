@@ -38,6 +38,7 @@
 
   /* Cards */
   --card: #ffffff;
+  --card-hover: #f8fafb;
   --card-foreground: #111827;
 
   /* Popover */
@@ -101,6 +102,7 @@
   --foreground: #f3f4f6;
 
   --card: #1b1f22;
+  --card-hover: #202529;
   --border: #343b40;
 
   --popover: #171a1c;
@@ -465,6 +467,18 @@ select {
     background: var(--card);
   }
 
+  /* .gre card-hover {
+    background: var(--card-hover) !important;
+  } */
+
+  .card-hover:hover {
+    background: var(--card-hover);
+  }
+
+  .card-hover:active {
+    background: var(--card-hover);
+  }
+
   .bg-secondary {
     background: var(--secondary);
   }
@@ -638,4 +652,30 @@ select {
     stroke-dashoffset: 0;
     opacity: 1;
   }
+}
+
+.kanban-scroll::-webkit-scrollbar {
+  height: 5px;
+}
+
+.kanban-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.kanban-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+}
+
+.kanban-scroll:hover::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+.kanban-scroll::-webkit-scrollbar-button {
+  display: none;
+}
+
+.kanban-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }

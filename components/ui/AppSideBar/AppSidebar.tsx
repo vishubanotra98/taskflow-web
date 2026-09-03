@@ -99,7 +99,7 @@ export function AppSidebar({ workspaceId }: AppSidebarProps) {
                   tooltip="Dashboard"
                   isActive={isDashboardActive}
                   onClick={() => router.push(`/${workspaceId}/dashboard`)}
-                  className={`h-9 rounded-lg transition-colors duration-150 ${
+                  className={`h-9 rounded-lg transition-colors duration-150 cursor-pointer ${
                     isDashboardActive
                       ? "bg-accent text-primary"
                       : "text-secondary hover:bg-accent hover:text-primary"
@@ -189,7 +189,7 @@ export function AppSidebar({ workspaceId }: AppSidebarProps) {
                 tooltip="Workspace settings"
                 isActive={isSettingsActive}
                 onClick={() => router.push(`/${workspaceId}/settings`)}
-                className={`h-9 rounded-lg transition-colors duration-150  ${isSettingsActive ? "bg-accent text-primary" : "text-secondary hover:bg-accent hover:text-primary"}`}
+                className={`h-9 rounded-lg transition-colors duration-150 cursor-pointer  ${isSettingsActive ? "bg-accent text-primary" : "text-secondary hover:bg-accent hover:text-primary"}`}
               >
                 <Settings2
                   className={`size-4 ${isSettingsActive ? "text-brand" : "text-secondary"}`}
